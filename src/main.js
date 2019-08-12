@@ -1,24 +1,28 @@
 // main.js
 
-import {render} from './utils.js';
-import tripInfoTemplate from './components/trip-info.js';
-import menuTemplate from './components/menu.js';
-import filtersTemplate from './components/filters.js';
-import tripSortTemplate from './components/trip-sort.js';
-import tripDayTemplate from './components/trip-day.js';
-import getTripEventsTemplate from './components/trip-events.js';
+import {getTripInfoTemplate} from './components/trip-info.js';
+import {getMenuTemplate} from './components/menu.js';
+import {getFiltersTemplate} from './components/filters.js';
+import {getTripSortTemplate} from './components/trip-sort.js';
+import {getTripDaysTemplate} from './components/trip-days.js';
+import {getTripEventsTemplate} from './components/trip-events.js';
 
-const tripInfoContainer = document.querySelector(`.trip-info`);
-const tripControlsContainer = document.querySelector(`.trip-controls`);
-const tripEventsContainer = document.querySelector(`.trip-events`);
-const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+const render = (template, element, placeToPaste = `afterBegin`) => element.insertAdjacentHTML(placeToPaste, template);
 
-render(tripInfoTemplate, tripInfoContainer, `afterBegin`);
-render(menuTemplate, tripControlsContainer, `afterBegin`);
-render(filtersTemplate, tripControlsContainer, `beforeEnd`);
-render(tripSortTemplate, tripEventsContainer, `afterBegin`);
-render(tripDayTemplate, tripDaysContainer, `afterBegin`);
+const tripInfoElement = document.querySelector(`.trip-info`);
+const tripControlsElement = document.querySelector(`.trip-controls`);
+const tripEventsElement = document.querySelector(`.trip-events`);
+const tripEventsHeaderElement = tripEventsElement.querySelector(`h2`);
 
-const tripEventsListContainer = tripDaysContainer.querySelector(`.trip-events__list`);
+render(getTripInfoTemplate(), tripInfoElement);
+render(getMenuTemplate(), tripControlsElement);
+render(getFiltersTemplate(), tripControlsElement, `beforeEnd`);
+render(getTripSortTemplate(), tripEventsHeaderElement, `afterEnd`);
 
-render(getTripEventsTemplate(3), tripEventsListContainer, `afterBegin`);
+const tripSortElement = tripEventsElement.querySelector(`.trip-sort`);
+
+render(getTripDaysTemplate(), tripSortElement, `afterEnd`);
+
+const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
+
+render(getTripEventsTemplate(3), tripEventsListElement);

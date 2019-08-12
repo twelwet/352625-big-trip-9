@@ -1,6 +1,6 @@
 // trip-day.js
 
-const tripDayTemplate = `
+const getTripDayTemplate = () => `
   <li class="trip-days__item  day">
     <div class="day__info">
       <span class="day__counter">1</span>
@@ -10,4 +10,4 @@ const tripDayTemplate = `
   </li>
 `;
 
-export default tripDayTemplate;
+export {getTripDayTemplate};
