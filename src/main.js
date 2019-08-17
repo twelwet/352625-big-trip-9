@@ -1,5 +1,6 @@
 // main.js
 
+import {filters} from './components/mock-data.js';
 import {getTripInfoTemplate} from './components/trip-info.js';
 import {getMenuTemplate} from './components/menu.js';
 import {getFiltersTemplate} from './components/filters.js';
@@ -16,7 +17,7 @@ const tripEventsHeaderElement = tripEventsElement.querySelector(`h2`);
 
 render(getTripInfoTemplate(), tripInfoElement);
 render(getMenuTemplate(), tripControlsElement);
-render(getFiltersTemplate(), tripControlsElement, `beforeEnd`);
+render(getFiltersTemplate(filters), tripControlsElement, `beforeEnd`);
 render(getTripSortTemplate(), tripEventsHeaderElement, `afterEnd`);
 
 const tripSortElement = tripEventsElement.querySelector(`.trip-sort`);
