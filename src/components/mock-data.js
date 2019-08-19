@@ -92,6 +92,17 @@ const OPTIONS = [
   }
 ];
 
+const menu = [
+  {
+    name: `Table`,
+    checked: true
+  },
+  {
+    name: `Stats`,
+    checked: false
+  }
+];
+
 const filters = [
   {
     name: `everything`,
@@ -191,6 +202,4 @@ const getRoutePoints = (count = 4) => {
 
 const routePoints = getRoutePoints();
 
-console.log(routePoints[0].options)
-
-export {filters, routePoints};
+export {menu, filters, routePoints};
