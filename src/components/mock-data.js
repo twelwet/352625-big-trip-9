@@ -202,4 +202,10 @@ const getRoutePoints = (count = 4) => {
 
 const routePoints = getRoutePoints();
 
-export {menu, filters, routePoints};
+const tripInfo = {
+  cities: routePoints.map((point) => point.city),
+  dates: routePoints.map((point) => point.date),
+  totalPrice: routePoints.map((point) => point.price).reduce((sum, current) => sum + current)
+};
+
+export {menu, filters, routePoints, tripInfo};
