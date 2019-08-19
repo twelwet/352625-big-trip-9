@@ -1,7 +1,6 @@
 // filters.js
 
 const getFiltersTemplate = (data) => `
-  <h2 class="visually-hidden">Filter events</h2>
   <form class="trip-filters" action="#" method="get">
 
   ${data.map((item) => `
