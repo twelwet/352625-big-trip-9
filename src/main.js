@@ -26,4 +26,4 @@ render(getTripDaysTemplate(), tripSortElement, `afterEnd`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
 
-render(getTripEventsTemplate(3), tripEventsListElement);
+render(getTripEventsTemplate(), tripEventsListElement);
