@@ -1,53 +1,44 @@
 // trip-event-edit.js
 
-const getTripEventEditTemplate = (data) => `
+import moment from 'moment';
+
+const getTripEventEditTemplate = (tripEvent, tripInfo) => `
   <li class="trip-events__item">
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/${data.pointsList.filter((list) => list.isActive)[0].name}.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${tripEvent.type}.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
     
           <div class="event__type-list">
-            <fieldset class="event__type-group">
-              <legend class="visually-hidden">Transfer</legend>
-              ${data.pointsList
-                .filter((point) => point.group === `transfer`)
-                .map((transferPoint) => `
-                  <div class="event__type-item">
-                    <input id="event-type-${transferPoint.name}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transferPoint.name}" ${transferPoint.isActive === true ? `checked=""` : ``}>
-                    <label class="event__type-label  event__type-label--${transferPoint.name}" for="event-type-${transferPoint.name}-1">${transferPoint.name}</label>
-                  </div>
-              `).join(``)}
 
-            </fieldset>
-    
+          ${Object.keys(tripInfo.pointsInfo).map((groupName) => `
             <fieldset class="event__type-group">
-              <legend class="visually-hidden">Activity</legend>
-              ${data.pointsList
-                .filter((point) => point.group === `activity`)
-                .map((activityPoint) => `
-                  <div class="event__type-item">
-                    <input id="event-type-${activityPoint.name}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${activityPoint.name}" ${activityPoint.isActive === true ? `checked=""` : ``}>
-                    <label class="event__type-label  event__type-label--${activityPoint.name}" for="event-type-${activityPoint.name}-1">${activityPoint.name}</label>
-                  </div>
-                `).join(``)}
+              <legend class="visually-hidden">${groupName}</legend>
+              ${tripInfo.pointsInfo[`${groupName}`].map((point) => `
+                <div class="event__type-item">
+                  <input id="event-type-${point}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${point}" ${point === tripEvent.type ? `checked=""` : ``}>
+                  <label class="event__type-label  event__type-label--${point}" for="event-type-${point}-1">${point}</label>
+                </div>
+              `).join(``)}
             </fieldset>
+          `).join(``)}
+          
           </div>
         </div>
     
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${data.pointsList.filter((list) => list.isActive)[0].name} at
+            ${tripEvent.type} at
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${data.city}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${tripEvent.city}" list="destination-list-1">
           <datalist id="destination-list-1">
-            <option value="Amsterdam"></option>
-            <option value="Geneva"></option>
-            <option value="Chamonix"></option>
+            ${tripInfo.cities.map((city) => `
+              <option value="${city}"></option>
+            `).join(``)}
           </datalist>
         </div>
     
@@ -55,12 +46,12 @@ const getTripEventEditTemplate = (data) => `
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${data.date.start}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(tripEvent.date.start).format(`L hh:mm`)}">
           —
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${data.date.end}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(tripEvent.date.end).format(`L hh:mm`)}">
         </div>
     
         <div class="event__field-group  event__field-group--price">
@@ -68,7 +59,7 @@ const getTripEventEditTemplate = (data) => `
             <span class="visually-hidden">Price</span>
             €
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${data.price}">
+          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${tripEvent.price}">
         </div>
     
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -93,7 +84,7 @@ const getTripEventEditTemplate = (data) => `
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
 
-          ${data.options.map((option) => `
+          ${tripEvent.options.map((option) => `
             <div class="event__offer-selector">
               <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option.name}-1" type="checkbox" name="event-offer-${option.name}" ${option.isChecked === true ? `checked=""` : ``} >
               <label class="event__offer-label" for="event-offer-${option.name}-1">
@@ -109,11 +100,11 @@ const getTripEventEditTemplate = (data) => `
     
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${data.text}</p>
+          <p class="event__destination-description">${tripEvent.text}</p>
     
           <div class="event__photos-container">
             <div class="event__photos-tape">
-              ${data.photos.map((photo) => `
+              ${tripEvent.photos.map((photo) => `
                 <img class="event__photo" src="${photo}" alt="Event photo">
               `).join(``)}
             </div>
