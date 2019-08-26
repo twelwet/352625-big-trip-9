@@ -1,5 +1,6 @@
 // main.js
 
+import {menu, filters, routePoints, tripInfo} from './components/mock-data.js';
 import {getTripInfoTemplate} from './components/trip-info.js';
 import {getMenuTemplate} from './components/menu.js';
 import {getFiltersTemplate} from './components/filters.js';
@@ -14,9 +15,9 @@ const tripControlsElement = document.querySelector(`.trip-controls`);
 const tripEventsElement = document.querySelector(`.trip-events`);
 const tripEventsHeaderElement = tripEventsElement.querySelector(`h2`);
 
-render(getTripInfoTemplate(), tripInfoElement);
-render(getMenuTemplate(), tripControlsElement);
-render(getFiltersTemplate(), tripControlsElement, `beforeEnd`);
+render(getTripInfoTemplate(tripInfo), tripInfoElement);
+render(getMenuTemplate(menu), tripControlsElement);
+render(getFiltersTemplate(filters), tripControlsElement, `beforeEnd`);
 render(getTripSortTemplate(), tripEventsHeaderElement, `afterEnd`);
 
 const tripSortElement = tripEventsElement.querySelector(`.trip-sort`);
@@ -25,4 +26,4 @@ render(getTripDaysTemplate(), tripSortElement, `afterEnd`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
 
-render(getTripEventsTemplate(3), tripEventsListElement);
+render(getTripEventsTemplate(routePoints, tripInfo), tripEventsListElement);

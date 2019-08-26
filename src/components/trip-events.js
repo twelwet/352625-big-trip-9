@@ -3,15 +3,14 @@
 import {getTripEventTemplate} from './trip-event';
 import {getTripEventEditTemplate} from './trip-event-edit';
 
+const getTripEventsTemplate = (points, info) => {
+  let template = getTripEventEditTemplate(points[0], info);
 
-const getTripEventsTemplate = (count) => {
-  let template = getTripEventEditTemplate();
-
-  let i = 0;
+  let i = 1;
   do {
-    template += getTripEventTemplate();
+    template += getTripEventTemplate(points[i]);
     i += 1;
-  } while (i < count);
+  } while (i < points.length);
 
   return template;
 };
