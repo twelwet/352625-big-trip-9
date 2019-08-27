@@ -75,18 +75,18 @@ const filters = [
   }
 ];
 
-const getRandomInteger = (min, max) => {
+const getRandom = (min, max) => {
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   rand = Math.round(rand);
   return rand;
 };
 
-const getRandomIndex = (array) => getRandomInteger(0, array.length - 1);
+const getRandomIndex = (array) => getRandom(0, array.length - 1);
 
 const getPointType = (obj) => {
   const groups = Object.keys(obj);
   const group = groups[getRandomIndex(groups)];
-  const typesList = obj[`${group}`];
+  const typesList = obj[group];
   return typesList[getRandomIndex(typesList)];
 };
 
@@ -100,7 +100,7 @@ const getPhotos = (count = 5) => {
 
 const getSomePhrases = (text = DESCRIPTION, min = 1, max = 3) => {
   const mockPhrases = text.split(`. `);
-  let randomPhrases = [...(new Array(getRandomInteger(min, max)))];
+  let randomPhrases = [...(new Array(getRandom(min, max)))];
   randomPhrases = randomPhrases.map((item) => {
     item = mockPhrases.splice(getRandomIndex(mockPhrases), 1);
     return item;
@@ -109,24 +109,24 @@ const getSomePhrases = (text = DESCRIPTION, min = 1, max = 3) => {
 };
 
 const getSerialDates = (count = QUANTITY_OF_POINTS) => {
-  let serialDates = [...(new Array(count + 1))];
+  const serialDates = [...(new Array(count + 1))];
 
   const minHours = 1;
   const maxHours = 10;
 
-  serialDates[0] = Date.now() + getRandomInteger(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
+  serialDates[0] = Date.now() + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
 
   let i = 1;
   do {
-    serialDates[i] = serialDates[i - 1] + getRandomInteger(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000)
+    serialDates[i] = serialDates[i - 1] + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000)
     i += 1;
   } while (i < serialDates.length);
 
   return serialDates;
 };
 
-const getDates = (arr) => {
-  let datePairs = [...(new Array(arr.length - 1))];
+const getPeriods = (arr) => {
+  const datePairs = [...(new Array(arr.length - 1))];
 
   // [ВОПРОС] Подскажи как реализовать через 'for...of'?
   //
@@ -145,7 +145,7 @@ const getDates = (arr) => {
   return datePairs;
 };
 
-const getPrice = (minPrice = 10, maxPrice = 500) => getRandomInteger(minPrice, maxPrice);
+const getPrice = (minPrice = 10, maxPrice = 500) => getRandom(minPrice, maxPrice);
 
 const getOptions = (min = 0, max = 2) => {
   const options = JSON.parse(JSON.stringify(OPTIONS));
@@ -179,7 +179,7 @@ const getRoutePoint = () => {
   };
 };
 
-const dates = getDates(getSerialDates());
+const dates = getPeriods(getSerialDates());
 
 const getRoutePoints = (count = QUANTITY_OF_POINTS) => {
   let routePoints = [...(new Array(count))];
