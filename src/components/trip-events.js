@@ -4,15 +4,11 @@ import {getTripEventTemplate} from './trip-event';
 import {getTripEventEditTemplate} from './trip-event-edit';
 
 const getTripEventsTemplate = (points, info) => {
-  let template = getTripEventEditTemplate(points[0], info);
+  const firstPoint = points.slice()[0];
+  const otherPoints = points.slice(1);
 
-  let i = 1;
-  do {
-    template += getTripEventTemplate(points[i]);
-    i += 1;
-  } while (i < points.length);
-
-  return template;
+  return getTripEventEditTemplate(firstPoint, info)
+    + otherPoints.map((point) => getTripEventTemplate(point));
 };
 
 export {getTripEventsTemplate};
