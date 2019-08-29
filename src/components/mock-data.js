@@ -112,13 +112,13 @@ const getSerialDates = (count = QUANTITY_OF_POINTS) => {
   const serialDates = [...(new Array(count + 1))];
 
   const minHours = 1;
-  const maxHours = 10;
+  const maxHours = 20;
 
   serialDates[0] = Date.now() + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
 
   let i = 1;
   do {
-    serialDates[i] = serialDates[i - 1] + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000)
+    serialDates[i] = serialDates[i - 1] + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
     i += 1;
   } while (i < serialDates.length);
 
@@ -126,23 +126,15 @@ const getSerialDates = (count = QUANTITY_OF_POINTS) => {
 };
 
 const getPeriods = (arr) => {
-  const datePairs = [...(new Array(arr.length - 1))];
 
-  // [ВОПРОС] Подскажи как реализовать через 'for...of'?
-  //
-  for (let i = 0; i < datePairs.length; i++) {
-    datePairs[i] = {};
-    datePairs[i].start = arr.slice(i)[0];
-    datePairs[i].end = arr.slice(i + 1)[0];
-  }
+  const periods = arr.map((date) => {
+    return {
+      start: arr.slice(arr.indexOf(date))[0],
+      end: arr.slice(arr.indexOf(date) + 1)[0]
+    };
+  }).slice(0, -1);
 
-  // for (let [index, item] of datePairs.entries()) {
-  //   item = {};
-  //   item.start = arr.slice(index, index + 1)[0];
-  //   item.end = arr.slice(index + 1, index + 2)[0];
-  // }
-
-  return datePairs;
+  return periods;
 };
 
 const getPrice = (minPrice = 10, maxPrice = 500) => getRandom(minPrice, maxPrice);
@@ -194,11 +186,11 @@ const getRoutePoints = (count = QUANTITY_OF_POINTS) => {
 
 const routePoints = getRoutePoints();
 
-const tripInfo = {
+const pointsInfo = {
   cities: routePoints.map((point) => point.city),
   dates: routePoints.map((point) => point.date),
   totalPrice: routePoints.map((point) => point.price).reduce((sum, current) => sum + current),
   pointsInfo: getPointsInfo()
 };
 
-export {menu, filters, routePoints, tripInfo};
+export {menu, filters, routePoints, pointsInfo};
