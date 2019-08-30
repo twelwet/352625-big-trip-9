@@ -1,5 +1,7 @@
 // mock-data.js
 
+import moment from 'moment';
+
 const menu = [
   {
     name: `Table`,
@@ -216,12 +218,14 @@ const getPeriods = (arr) => {
 const getPrice = (minPrice = 10, maxPrice = 500) => getRandom(minPrice, maxPrice);
 
 const getPoint = () => {
+  const id = Math.random().toString(36).slice(2);
   const type = getType();
   const options = getOptions(type);
   const city = getCity();
   const price = getPrice();
 
   return {
+    id,
     type,
     options,
     city,
@@ -264,8 +268,16 @@ const getGroupsToTypes = () => {
 
 const groupsToTypes = getGroupsToTypes();
 
+const daysToIds = points.reduce((acc, {date, id}) => {
+  const dateString = moment(date.start).format(`MMM D YYYY`);
+  return Object.assign(acc, {
+    [dateString]: [...acc[dateString] || [], id]
+  });
+}, {});
+
 const pointsInfo = {
   pretext: Pretext,
+  daysToIds,
   groupsToTypes,
   typesList,
   optionsList,

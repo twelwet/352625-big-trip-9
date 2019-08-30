@@ -21,7 +21,7 @@ render(getTripSortTemplate(), tripEventsHeaderElement, `afterEnd`);
 
 const tripSortElement = tripEventsElement.querySelector(`.trip-sort`);
 
-render(getTripDaysTemplate(), tripSortElement, `afterEnd`);
+render(getTripDaysTemplate(pointsInfo), tripSortElement, `afterEnd`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
 
