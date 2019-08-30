@@ -8,7 +8,7 @@ const getTripEventTemplate = (point, info) => `
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="${info.typesList[point.type].icon}" alt="Event type icon">
       </div>
-      <h3 class="event__title">${point.type} at ${point.city}</h3>
+      <h3 class="event__title">${point.type} ${info.pretext[info.typesList[point.type].group]} ${point.city}</h3>
     
       <div class="event__schedule">
         <p class="event__time">

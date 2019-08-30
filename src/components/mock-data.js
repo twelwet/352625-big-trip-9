@@ -55,6 +55,8 @@ const Type = {
 
 const Group = {TRANSFER: `transfer`, ACTIVITY: `activity`};
 
+const Pretext = {[Group.TRANSFER]: `to`, [Group.ACTIVITY]: `in`};
+
 const Option = {
   LUGGAGE: `luggage`,
   COMFORT: `comfort`,
@@ -263,6 +265,7 @@ const getGroupsToTypes = () => {
 const groupsToTypes = getGroupsToTypes();
 
 const pointsInfo = {
+  pretext: Pretext,
   groupsToTypes,
   typesList,
   optionsList,
