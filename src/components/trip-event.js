@@ -12,15 +12,19 @@ const getTripEventTemplate = (point, info) => `
     
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${moment(point.date.start).format(`L hh:mm`)}">${moment(point.date.start).format(`hh:mm`)}</time>
+          <time class="event__start-time" datetime="${moment(point.date.start).format(`HH:mm`)}">${moment(point.date.start).format(`HH:mm`)}</time>
           —
-          <time class="event__end-time" datetime="${moment(point.date.end).format(`L hh:mm`)}">${moment(point.date.end).format(`hh:mm`)}</time>
+          <time class="event__end-time" datetime="${moment(point.date.end).format(`HH:mm`)}">${moment(point.date.end).format(`HH:mm`)}</time>
         </p>
         <p class="event__duration">
           ${moment
             .duration(moment(point.date.end)
             .diff(moment(point.date.start))
-            )}
+            ).hours()}H
+          ${moment
+            .duration(moment(point.date.end)
+            .diff(moment(point.date.start))
+            ).minutes()}M
         </p>
       </div>
     
