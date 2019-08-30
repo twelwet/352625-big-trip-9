@@ -12,7 +12,7 @@ const getFiltersTemplate = (data) => `
         type="radio"
         name="trip-filter"
         value="${item.name}"
-        ${item.checked ? `checked=""` : ``}
+        ${item.isChecked ? `checked=""` : ``}
       >
       <label 
         class="trip-filters__filter-label"

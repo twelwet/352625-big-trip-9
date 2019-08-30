@@ -2,26 +2,26 @@
 
 import moment from 'moment';
 
-const getTripEventEditTemplate = (tripEvent, tripInfo) => `
+const getTripEventEditTemplate = (point, info) => `
   <li class="trip-events__item">
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/${tripEvent.type}.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="${info.typesList[point.type].icon}" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
     
           <div class="event__type-list">
 
-          ${Object.keys(tripInfo.pointsInfo).map((groupName) => `
+          ${Object.keys(info.groupsToTypes).map((groupName) => `
             <fieldset class="event__type-group">
               <legend class="visually-hidden">${groupName}</legend>
-              ${tripInfo.pointsInfo[`${groupName}`].map((point) => `
+              ${info.groupsToTypes[groupName].map((item) => `
                 <div class="event__type-item">
-                  <input id="event-type-${point}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${point}" ${point === tripEvent.type ? `checked=""` : ``}>
-                  <label class="event__type-label  event__type-label--${point}" for="event-type-${point}-1">${point}</label>
+                  <input id="event-type-${item}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${item}" ${item === point.type ? `checked=""` : ``}>
+                  <label class="event__type-label  event__type-label--${item}" for="event-type-${item}-1">${item}</label>
                 </div>
               `).join(``)}
             </fieldset>
@@ -32,11 +32,11 @@ const getTripEventEditTemplate = (tripEvent, tripInfo) => `
     
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${tripEvent.type} at
+            ${point.type} at
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${tripEvent.city}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${point.city}" list="destination-list-1">
           <datalist id="destination-list-1">
-            ${tripInfo.cities.map((city) => `
+            ${info.cities.map((city) => `
               <option value="${city}"></option>
             `).join(``)}
           </datalist>
@@ -46,12 +46,12 @@ const getTripEventEditTemplate = (tripEvent, tripInfo) => `
           <label class="visually-hidden" for="event-start-time-1">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(tripEvent.date.start).format(`L hh:mm`)}">
+          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(point.date.start).format(`L hh:mm`)}">
           —
           <label class="visually-hidden" for="event-end-time-1">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(tripEvent.date.end).format(`L hh:mm`)}">
+          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(point.date.end).format(`L hh:mm`)}">
         </div>
     
         <div class="event__field-group  event__field-group--price">
@@ -59,7 +59,7 @@ const getTripEventEditTemplate = (tripEvent, tripInfo) => `
             <span class="visually-hidden">Price</span>
             €
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${tripEvent.price}">
+          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${point.price}">
         </div>
     
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -84,13 +84,13 @@ const getTripEventEditTemplate = (tripEvent, tripInfo) => `
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
 
-          ${tripEvent.options.map((option) => `
+          ${point.options.map((item) => `
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-${option.name}-1" type="checkbox" name="event-offer-${option.name}" ${option.isChecked === true ? `checked=""` : ``} >
-              <label class="event__offer-label" for="event-offer-${option.name}-1">
-                <span class="event__offer-title">${option.text}</span>
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option}-1" type="checkbox" name="event-offer-${item.option}" ${item.isChecked === true ? `checked=""` : ``} >
+              <label class="event__offer-label" for="event-offer-${item.option}-1">
+                <span class="event__offer-title">${info.optionsList[item.option].text}</span>
                 +
-                € <span class="event__offer-price">${option.price}</span>
+                € <span class="event__offer-price">${info.optionsList[item.option].price}</span>
               </label>
             </div>
           `).join(``)}
@@ -100,11 +100,11 @@ const getTripEventEditTemplate = (tripEvent, tripInfo) => `
     
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${tripEvent.text}</p>
+          <p class="event__destination-description">${info.citiesList[point.city].text}</p>
     
           <div class="event__photos-container">
             <div class="event__photos-tape">
-              ${tripEvent.photos.map((photo) => `
+              ${info.citiesList[point.city].photos.map((photo) => `
                 <img class="event__photo" src="${photo}" alt="Event photo">
               `).join(``)}
             </div>

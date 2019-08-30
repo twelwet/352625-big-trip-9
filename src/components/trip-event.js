@@ -2,41 +2,41 @@
 
 import moment from 'moment';
 
-const getTripEventTemplate = (tripEvent) => `
+const getTripEventTemplate = (point, info) => `
   <li class="trip-events__item">
     <div class="event">
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/${tripEvent.type}.png" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="${info.typesList[point.type].icon}" alt="Event type icon">
       </div>
-      <h3 class="event__title">${tripEvent.type} at ${tripEvent.city}</h3>
+      <h3 class="event__title">${point.type} at ${point.city}</h3>
     
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${moment(tripEvent.date.start).format(`L hh:mm`)}">${moment(tripEvent.date.start).format(`hh:mm`)}</time>
+          <time class="event__start-time" datetime="${moment(point.date.start).format(`L hh:mm`)}">${moment(point.date.start).format(`hh:mm`)}</time>
           —
-          <time class="event__end-time" datetime="${moment(tripEvent.date.end).format(`L hh:mm`)}">${moment(tripEvent.date.end).format(`hh:mm`)}</time>
+          <time class="event__end-time" datetime="${moment(point.date.end).format(`L hh:mm`)}">${moment(point.date.end).format(`hh:mm`)}</time>
         </p>
         <p class="event__duration">
           ${moment
-            .duration(moment(tripEvent.date.end)
-            .diff(moment(tripEvent.date.start))
+            .duration(moment(point.date.end)
+            .diff(moment(point.date.start))
             )}
         </p>
       </div>
     
       <p class="event__price">
-        € <span class="event__price-value">${tripEvent.price}</span>
+        € <span class="event__price-value">${point.price}</span>
       </p>
     
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${tripEvent.options
+        ${point.options
           .filter((option) => !option.isChecked)
           .map((item) => `
             <li class="event__offer">
-              <span class="event__offer-title">${item.name}</span>
+              <span class="event__offer-title">${item.option}</span>
               +
-              € <span class="event__offer-price">${item.price}</span>
+              € <span class="event__offer-price">${info.optionsList[item.option].price}</span>
             </li>`).join(``)}
       </ul>
     

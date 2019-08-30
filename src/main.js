@@ -1,6 +1,5 @@
 // main.js
-
-import {menu, filters, routePoints, pointsInfo} from './components/mock-data.js';
+import {menu, filters, points, pointsInfo} from './components/mock-data.js';
 import {getTripInfoTemplate} from './components/trip-info.js';
 import {getMenuTemplate} from './components/menu.js';
 import {getFiltersTemplate} from './components/filters.js';
@@ -26,4 +25,4 @@ render(getTripDaysTemplate(), tripSortElement, `afterEnd`);
 
 const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
 
-render(getTripEventsTemplate(routePoints, pointsInfo), tripEventsListElement);
+render(getTripEventsTemplate(points, pointsInfo), tripEventsListElement);

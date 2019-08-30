@@ -8,7 +8,7 @@ const getTripEventsTemplate = (points, info) => {
   const otherPoints = points.slice(1);
 
   return getTripEventEditTemplate(firstPoint, info)
-    + otherPoints.map((point) => getTripEventTemplate(point));
+    + otherPoints.map((point) => getTripEventTemplate(point, info));
 };
 
 export {getTripEventsTemplate};
