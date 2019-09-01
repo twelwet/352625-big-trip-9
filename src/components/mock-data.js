@@ -145,15 +145,12 @@ const getSomePhrases = (text = DESCRIPTION, min = 1, max = 3) => {
 const getCitiesList = () => {
   const list = {};
 
-  for (const key in City) {
-    if (Object.prototype.hasOwnProperty.call(City, key)) {
-      Object
-        .assign(list, {[City[key]]: {
-          photos: getPhotos(),
-          text: getSomePhrases()
-        }});
-    }
-  }
+  Object.values(City)
+    .forEach((city) => Object
+      .assign(list, {[city]: {
+        photos: getPhotos(),
+        text: getSomePhrases()
+      }}));
 
   return list;
 };
