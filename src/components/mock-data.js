@@ -91,29 +91,29 @@ const typesList = {
 const optionsList = {
   [Option.LUGGAGE]: {
     text: `Add ${Option.LUGGAGE}`,
-    price: 10,
-    available: [Group.TRANSFER]
+    price: 10
   },
   [Option.COMFORT]: {
     text: `Switch to ${Option.COMFORT} class`,
-    price: 150,
-    available: [Group.TRANSFER]
+    price: 150
   },
   [Option.MEAL]: {
     text: `Add ${Option.MEAL}`,
-    price: 2,
-    available: [Group.TRANSFER, Group.ACTIVITY]
+    price: 2
   },
   [Option.SEATS]: {
     text: `Choose ${Option.SEATS}`,
-    price: 9,
-    available: [Group.TRANSFER]
+    price: 9
   },
   [Option.TRAIN]: {
     text: `Travel by ${Option.TRAIN}`,
-    price: 40,
-    available: [Group.ACTIVITY]
+    price: 40
   }
+};
+
+const groupsToOptions = {
+  [Group.TRANSFER]: [Option.LUGGAGE, Option.COMFORT, Option.MEAL, Option.SEATS],
+  [Group.ACTIVITY]: [Option.MEAL, Option.TRAIN]
 };
 
 const getRandom = (min, max) => {
@@ -178,9 +178,7 @@ const randomizeOptions = (arr, min = 0, max = 2) => {
 };
 
 const getOptions = (type) => {
-  const typeOptions = Object.keys(optionsList)
-    .filter((option) => optionsList[option].available
-      .includes(typesList[type].group))
+  const typeOptions = groupsToOptions[typesList[type].group]
     .map((item) => ({option: item, isChecked: false}));
 
   return randomizeOptions(typeOptions);
