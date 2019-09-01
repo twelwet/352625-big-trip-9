@@ -206,9 +206,9 @@ const getSerialDates = (count = QUANTITY_OF_POINTS) => {
 };
 
 const getPeriods = (arr) => {
-  return arr.map((date) => ({
-    start: arr.slice(arr.indexOf(date))[0],
-    end: arr.slice(arr.indexOf(date) + 1)[0]})
+  return arr.map((item, index) => ({
+    start: arr.slice(index)[0],
+    end: arr.slice(index + 1)[0]})
   ).slice(0, -1);
 };
 
