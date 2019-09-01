@@ -2,45 +2,45 @@
 
 import moment from 'moment';
 
-const getTripEventTemplate = (point, info) => `
+const getTripEventTemplate = ({type, options, city, date, price}, {pretext, typesList, optionsList}) => `
   <li class="trip-events__item">
     <div class="event">
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="${info.typesList[point.type].icon}" alt="Event type icon">
+        <img class="event__type-icon" width="42" height="42" src="${typesList[type].icon}" alt="Event type icon">
       </div>
-      <h3 class="event__title">${point.type} ${info.pretext[info.typesList[point.type].group]} ${point.city}</h3>
+      <h3 class="event__title">${type} ${pretext[typesList[type].group]} ${city}</h3>
     
       <div class="event__schedule">
         <p class="event__time">
-          <time class="event__start-time" datetime="${moment(point.date.start).format(`HH:mm`)}">${moment(point.date.start).format(`HH:mm`)}</time>
+          <time class="event__start-time" datetime="${moment(date.start).format(`HH:mm`)}">${moment(date.start).format(`HH:mm`)}</time>
           —
-          <time class="event__end-time" datetime="${moment(point.date.end).format(`HH:mm`)}">${moment(point.date.end).format(`HH:mm`)}</time>
+          <time class="event__end-time" datetime="${moment(date.end).format(`HH:mm`)}">${moment(date.end).format(`HH:mm`)}</time>
         </p>
         <p class="event__duration">
           ${moment
-            .duration(moment(point.date.end)
-            .diff(moment(point.date.start))
+            .duration(moment(date.end)
+            .diff(moment(date.start))
             ).hours()}H
           ${moment
-            .duration(moment(point.date.end)
-            .diff(moment(point.date.start))
+            .duration(moment(date.end)
+            .diff(moment(date.start))
             ).minutes()}M
         </p>
       </div>
     
       <p class="event__price">
-        € <span class="event__price-value">${point.price}</span>
+        € <span class="event__price-value">${price}</span>
       </p>
     
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${point.options
+        ${options
           .filter((option) => !option.isChecked)
           .map((item) => `
             <li class="event__offer">
               <span class="event__offer-title">${item.option}</span>
               +
-              € <span class="event__offer-price">${info.optionsList[item.option].price}</span>
+              € <span class="event__offer-price">${optionsList[item.option].price}</span>
             </li>`).join(``)}
       </ul>
     
