@@ -251,14 +251,11 @@ const points = getPoints();
 const getGroupsToTypes = () => {
   const list = {};
 
-  for (const key in Group) {
-    if (Object.prototype.hasOwnProperty.call(Group, key)) {
-      Object
-        .assign(list, {
-          [Group[key]]: Object.keys(typesList).filter((item) => typesList[item].group === Group[key])
-        });
-    }
-  }
+  Object.values(Group)
+    .forEach((groupName) => Object
+      .assign(list, {
+        [groupName]: Object.keys(typesList).filter((item) => typesList[item].group === groupName)
+      }));
 
   return list;
 };
