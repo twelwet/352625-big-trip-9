@@ -28,7 +28,7 @@ const filters = [
   }
 ];
 
-const QUANTITY_OF_POINTS = 4;
+const QUANTITY_OF_POINTS = 10;
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -287,4 +287,6 @@ const pointsInfo = {
   totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
 };
 
+console.log(Object.values(pointsInfo.daysToIds)[0]);
+console.log(points[0].id);
 export {menu, filters, points, pointsInfo};

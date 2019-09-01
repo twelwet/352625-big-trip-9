@@ -5,7 +5,6 @@ import {getMenuTemplate} from './components/menu.js';
 import {getFiltersTemplate} from './components/filters.js';
 import {getTripSortTemplate} from './components/trip-sort.js';
 import {getTripDaysTemplate} from './components/trip-days.js';
-import {getTripEventsTemplate} from './components/trip-events.js';
 
 const render = (template, element, placeToPaste = `afterBegin`) => element.insertAdjacentHTML(placeToPaste, template);
 
@@ -21,8 +20,4 @@ render(getTripSortTemplate(), tripEventsHeaderElement, `afterEnd`);
 
 const tripSortElement = tripEventsElement.querySelector(`.trip-sort`);
 
-render(getTripDaysTemplate(pointsInfo), tripSortElement, `afterEnd`);
-
-const tripEventsListElement = tripEventsElement.querySelector(`.trip-events__list`);
-
-render(getTripEventsTemplate(points, pointsInfo), tripEventsListElement);
+render(getTripDaysTemplate(points, pointsInfo), tripSortElement, `afterEnd`);
