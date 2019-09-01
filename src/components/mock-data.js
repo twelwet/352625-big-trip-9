@@ -287,6 +287,4 @@ const pointsInfo = {
   totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
 };
 
-console.log(Object.values(pointsInfo.daysToIds)[0]);
-console.log(points[0].id);
 export {menu, filters, points, pointsInfo};
