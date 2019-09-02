@@ -2,7 +2,7 @@
 
 import moment from 'moment';
 
-const menu = [
+const menuData = [
   {
     name: `Table`,
     isChecked: true
@@ -13,7 +13,7 @@ const menu = [
   }
 ];
 
-const filters = [
+const filtersData = [
   {
     name: `everything`,
     isChecked: true
@@ -279,4 +279,4 @@ const pointsInfo = {
   totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
 };
 
-export {menu, filters, points, pointsInfo};
+export {menuData, filtersData, points, pointsInfo};
