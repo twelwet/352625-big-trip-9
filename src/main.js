@@ -1,7 +1,7 @@
 // main.js
 
 import {Position, render} from './utils.js';
-import {menuData, filtersData, points, pointsInfo} from './components/mock-data.js';
+import {menuData, filtersData, pointsInfo} from './components/mock-data.js';
 import TripInfo from './components/trip-info.js';
 import TripInfoCost from './components/trip-info-cost.js';
 import Menu from './components/menu.js';

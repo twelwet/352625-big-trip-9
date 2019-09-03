@@ -287,4 +287,4 @@ const pointsInfo = {
   totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
 };
 
-export {menuData, filtersData, points, pointsInfo};
+export {menuData, filtersData, pointsInfo};
