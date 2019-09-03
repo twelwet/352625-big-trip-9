@@ -267,13 +267,13 @@ const daysToPoints = points.reduce((acc, point) => {
   });
 }, {});
 
-const sortPoints = () => {
+const sortPointsInEachDay = () => {
   Object.values(daysToPoints)
     .forEach((dayPoints) => dayPoints
       .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
 };
 
-sortPoints();
+sortPointsInEachDay();
 
 const pointsInfo = {
   pretext: Pretext,

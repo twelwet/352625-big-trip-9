@@ -1,6 +1,7 @@
 // trip-days.js
 
 import {createElement} from '../utils.js';
+import moment from 'moment';
 
 class TripDays {
   constructor({daysToPoints}) {
@@ -10,7 +11,9 @@ class TripDays {
 
   getTemplate() {
     return `<ul class="trip-days">
-      ${Object.keys(this._daysToPoints).map((day, index) => `
+      ${Object.keys(this._daysToPoints)
+        .sort((a, b) => moment(a) - moment(b))
+      .map((day, index) => `
         <li class="trip-days__item  day">
           <div class="day__info">
             <span class="day__counter">${index + 1}</span>
