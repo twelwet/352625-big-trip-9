@@ -1,6 +1,34 @@
 // mock-data.js
 
-const QUANTITY_OF_POINTS = 4;
+import moment from 'moment';
+
+const menuData = [
+  {
+    name: `Table`,
+    isChecked: true
+  },
+  {
+    name: `Stats`,
+    isChecked: false
+  }
+];
+
+const filtersData = [
+  {
+    name: `everything`,
+    isChecked: true
+  },
+  {
+    name: `future`,
+    isChecked: false
+  },
+  {
+    name: `past`,
+    isChecked: false
+  }
+];
+
+const QUANTITY_OF_POINTS = 10;
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -14,81 +42,87 @@ const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                      Nunc fermentum tortor ac porta dapibus. 
                      In rutrum ac purus sit amet tempus`;
 
-const TRIP_POINTS = {
-  transfer: [`bus`, `drive`, `flight`, `ship`, `taxi`, `train`, `transport`],
-  activity: [`check-in`, `restaurant`, `sightseeing`]
+const Type = {
+  BUS: `bus`,
+  DRIVE: `drive`,
+  FLIGHT: `flight`,
+  SHIP: `ship`,
+  TAXI: `taxi`,
+  TRAIN: `train`,
+  TRANSPORT: `transport`,
+  CHECK_IN: `check-in`,
+  RESTAURANT: `restaurant`,
+  SIGHTSEEING: `sightseeing`,
 };
 
-const CITIES = [`Berlin`, `Amsterdam`, `Budapest`, `New York`];
+const Group = {TRANSFER: `transfer`, ACTIVITY: `activity`};
 
-const OPTIONS = [
-  {
-    name: `luggage`,
-    text: `Add luggage`,
+const Pretext = {[Group.TRANSFER]: `to`, [Group.ACTIVITY]: `in`};
+
+const Option = {
+  LUGGAGE: `luggage`,
+  COMFORT: `comfort`,
+  MEAL: `meal`,
+  SEATS: `seats`,
+  TRAIN: `train`
+};
+
+const City = {
+  BERLIN: `Berlin`,
+  AMSTERDAM: `Amsterdam`,
+  BUDAPEST: `Budapest`,
+  NEW_YORK: `New York`,
+  MOSCOW: `Moscow`
+};
+
+const typesList = {
+  [Type.BUS]: {icon: `img/icons/${Type.BUS}.png`, group: Group.TRANSFER},
+  [Type.DRIVE]: {icon: `img/icons/${Type.DRIVE}.png`, group: Group.TRANSFER},
+  [Type.FLIGHT]: {icon: `img/icons/${Type.FLIGHT}.png`, group: Group.TRANSFER},
+  [Type.SHIP]: {icon: `img/icons/${Type.SHIP}.png`, group: Group.TRANSFER},
+  [Type.TAXI]: {icon: `img/icons/${Type.TAXI}.png`, group: Group.TRANSFER},
+  [Type.TRAIN]: {icon: `img/icons/${Type.TRAIN}.png`, group: Group.TRANSFER},
+  [Type.TRANSPORT]: {icon: `img/icons/${Type.TRANSPORT}.png`, group: Group.TRANSFER},
+  [Type.CHECK_IN]: {icon: `img/icons/${Type.CHECK_IN}.png`, group: Group.ACTIVITY},
+  [Type.RESTAURANT]: {icon: `img/icons/${Type.RESTAURANT}.png`, group: Group.ACTIVITY},
+  [Type.SIGHTSEEING]: {icon: `img/icons/${Type.SIGHTSEEING}.png`, group: Group.ACTIVITY}
+};
+
+const optionsList = {
+  [Option.LUGGAGE]: {
+    text: `Add ${Option.LUGGAGE}`,
     price: 10
   },
-  {
-    name: `comfort`,
-    text: `Switch to comfort class`,
+  [Option.COMFORT]: {
+    text: `Switch to ${Option.COMFORT} class`,
     price: 150
   },
-  {
-    name: `meal`,
-    text: `Add meal`,
+  [Option.MEAL]: {
+    text: `Add ${Option.MEAL}`,
     price: 2
   },
-  {
-    name: `seats`,
-    text: `Choose seats`,
+  [Option.SEATS]: {
+    text: `Choose ${Option.SEATS}`,
     price: 9
   },
-  {
-    name: `train`,
-    text: `Travel by train`,
+  [Option.TRAIN]: {
+    text: `Travel by ${Option.TRAIN}`,
     price: 40
   }
-];
+};
 
-const menu = [
-  {
-    name: `Table`,
-    checked: true
-  },
-  {
-    name: `Stats`,
-    checked: false
-  }
-];
+const groupsToOptions = {
+  [Group.TRANSFER]: [Option.LUGGAGE, Option.COMFORT, Option.MEAL, Option.SEATS],
+  [Group.ACTIVITY]: [Option.MEAL, Option.TRAIN]
+};
 
-const filters = [
-  {
-    name: `everything`,
-    checked: true
-  },
-  {
-    name: `future`,
-    checked: false
-  },
-  {
-    name: `past`,
-    checked: false
-  }
-];
-
-const getRandomInteger = (min, max) => {
+const getRandom = (min, max) => {
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   rand = Math.round(rand);
   return rand;
 };
 
-const getRandomIndex = (array) => getRandomInteger(0, array.length - 1);
-
-const getPointType = (obj) => {
-  const groups = Object.keys(obj);
-  const group = groups[getRandomIndex(groups)];
-  const typesList = obj[`${group}`];
-  return typesList[getRandomIndex(typesList)];
-};
+const getRandomIndex = (arr) => getRandom(0, arr.length - 1);
 
 const getRandomPhoto = () => `http://picsum.photos/300/150?r=${Math.random()}`;
 
@@ -99,8 +133,8 @@ const getPhotos = (count = 5) => {
 };
 
 const getSomePhrases = (text = DESCRIPTION, min = 1, max = 3) => {
-  const mockPhrases = text.split(`. `);
-  let randomPhrases = [...(new Array(getRandomInteger(min, max)))];
+  const mockPhrases = text.split(`. `).map((item) => item.trim());
+  let randomPhrases = [...(new Array(getRandom(min, max)))];
   randomPhrases = randomPhrases.map((item) => {
     item = mockPhrases.splice(getRandomIndex(mockPhrases), 1);
     return item;
@@ -108,50 +142,27 @@ const getSomePhrases = (text = DESCRIPTION, min = 1, max = 3) => {
   return (randomPhrases.join(`. `) + `.`);
 };
 
-const getSerialDates = (count = QUANTITY_OF_POINTS) => {
-  let serialDates = [...(new Array(count + 1))];
+const getCitiesList = () => {
+  const list = {};
 
-  const minHours = 1;
-  const maxHours = 10;
+  Object.values(City)
+    .forEach((city) => Object
+      .assign(list, {[city]: {
+        photos: getPhotos(),
+        text: getSomePhrases()
+      }}));
 
-  serialDates[0] = Date.now() + getRandomInteger(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
-
-  let i = 1;
-  do {
-    serialDates[i] = serialDates[i - 1] + getRandomInteger(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000)
-    i += 1;
-  } while (i < serialDates.length);
-
-  return serialDates;
+  return list;
 };
 
-const getDates = (arr) => {
-  let datePairs = [...(new Array(arr.length - 1))];
+const citiesList = getCitiesList();
 
-  // [ВОПРОС] Подскажи как реализовать через 'for...of'?
-  //
-  for (let i = 0; i < datePairs.length; i++) {
-    datePairs[i] = {};
-    datePairs[i].start = arr.slice(i)[0];
-    datePairs[i].end = arr.slice(i + 1)[0];
-  }
+const getType = () => Object.values(Type)[getRandomIndex(Object.values(Type))];
 
-  // for (let [index, item] of datePairs.entries()) {
-  //   item = {};
-  //   item.start = arr.slice(index, index + 1)[0];
-  //   item.end = arr.slice(index + 1, index + 2)[0];
-  // }
-
-  return datePairs;
-};
-
-const getPrice = (minPrice = 10, maxPrice = 500) => getRandomInteger(minPrice, maxPrice);
-
-const getOptions = (min = 0, max = 2) => {
-  const options = JSON.parse(JSON.stringify(OPTIONS));
-
+const randomizeOptions = (arr, min = 0, max = 2) => {
   let count = min;
-  for (const item of options) {
+
+  for (const item of arr) {
     item.isChecked = Math.random() < 0.5;
 
     if (item.isChecked === true) {
@@ -159,31 +170,72 @@ const getOptions = (min = 0, max = 2) => {
     }
 
     if (count === max) {
-      return options;
+      return arr;
     }
   }
-  return options;
+
+  return arr;
 };
 
-const getPointsInfo = () => JSON.parse(JSON.stringify(TRIP_POINTS));
+const getOptions = (type) => {
+  const typeOptions = groupsToOptions[typesList[type].group]
+    .map((item) => ({option: item, isChecked: false}));
 
-const getRoutePoint = () => {
+  return randomizeOptions(typeOptions);
+};
+
+const getCity = () => Object.values(City)[getRandomIndex(Object.values(City))];
+
+const getSerialDates = (count = QUANTITY_OF_POINTS) => {
+  const serialDates = [...(new Array(count + 1))];
+
+  const minHours = 1;
+  const maxHours = 20;
+
+  serialDates[0] = Date.now() + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
+
+  let i = 1;
+  do {
+    serialDates[i] = serialDates[i - 1] + getRandom(minHours * 60 * 60 * 1000, maxHours * 60 * 60 * 1000);
+    i += 1;
+  } while (i < serialDates.length);
+
+  return serialDates;
+};
+
+const getPeriods = (arr) => {
+  return arr.map((item, index) => ({
+    start: arr.slice(index)[0],
+    end: arr.slice(index + 1)[0]})
+  ).slice(0, -1);
+};
+
+const getPrice = (minPrice = 10, maxPrice = 500) => getRandom(minPrice, maxPrice);
+
+const getPoint = () => {
+  const id = Math.random().toString(36).slice(2);
+  const type = getType();
+  const options = getOptions(type);
+  const city = getCity();
+  const price = getPrice();
+
   return {
-    type: getPointType(TRIP_POINTS),
-    city: CITIES[getRandomIndex(CITIES)],
-    photos: getPhotos(),
-    text: getSomePhrases(),
-    date: {},
-    price: getPrice(),
-    options: getOptions()
+    id,
+    type,
+    options,
+    city,
+    date: {
+      start: ``,
+      end: ``
+    },
+    price
   };
 };
 
-const dates = getDates(getSerialDates());
+const getPoints = (count = QUANTITY_OF_POINTS) => {
+  const dates = getPeriods(getSerialDates());
 
-const getRoutePoints = (count = QUANTITY_OF_POINTS) => {
-  let routePoints = [...(new Array(count))];
-  routePoints = routePoints.map(getRoutePoint);
+  let routePoints = [...(new Array(count))].map(getPoint);
 
   for (const [index, date] of dates.entries()) {
     routePoints[index].date = date;
@@ -192,13 +244,39 @@ const getRoutePoints = (count = QUANTITY_OF_POINTS) => {
   return routePoints;
 };
 
-const routePoints = getRoutePoints();
+const points = getPoints();
 
-const tripInfo = {
-  cities: routePoints.map((point) => point.city),
-  dates: routePoints.map((point) => point.date),
-  totalPrice: routePoints.map((point) => point.price).reduce((sum, current) => sum + current),
-  pointsInfo: getPointsInfo()
+const getGroupsToTypes = () => {
+  const list = {};
+
+  Object.values(Group)
+    .forEach((groupName) => Object
+      .assign(list, {
+        [groupName]: Object.keys(typesList).filter((item) => typesList[item].group === groupName)
+      }));
+
+  return list;
 };
 
-export {menu, filters, routePoints, tripInfo};
+const groupsToTypes = getGroupsToTypes();
+
+const daysToIds = points.reduce((acc, {date, id}) => {
+  const dateString = moment(date.start).format(`MMM D YYYY`);
+  return Object.assign(acc, {
+    [dateString]: [...acc[dateString] || [], id]
+  });
+}, {});
+
+const pointsInfo = {
+  pretext: Pretext,
+  daysToIds,
+  groupsToTypes,
+  typesList,
+  optionsList,
+  citiesList,
+  cities: points.map((point) => point.city),
+  dates: points.map((point) => point.date),
+  totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
+};
+
+export {menuData, filtersData, points, pointsInfo};
