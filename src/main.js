@@ -52,8 +52,8 @@ const renderTripEvent = (container, point, info) => {
 
 const dayLists = document.querySelectorAll(`.trip-events__list`);
 
+const pointsByDays = Object.values(pointsInfo.daysToPoints);
+
 [...dayLists].forEach((dayList, index) => {
-  points.filter((point) => Object.values(pointsInfo.daysToIds)[index]
-      .find((id) => id === point.id))
-    .map((dayPoint) => renderTripEvent(dayList, dayPoint, pointsInfo));
+  pointsByDays[index].forEach((dayPoint) => renderTripEvent(dayList, dayPoint, pointsInfo));
 });

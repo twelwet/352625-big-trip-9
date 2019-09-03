@@ -260,16 +260,24 @@ const getGroupsToTypes = () => {
 
 const groupsToTypes = getGroupsToTypes();
 
-const daysToIds = points.reduce((acc, {date, id}) => {
-  const dateString = moment(date.start).format(`MMM D YYYY`);
+const daysToPoints = points.reduce((acc, point) => {
+  const dateString = moment(point.date.start).format(`MMM D YYYY`);
   return Object.assign(acc, {
-    [dateString]: [...acc[dateString] || [], id]
+    [dateString]: [...acc[dateString] || [], point]
   });
 }, {});
 
+const sortPoints = () => {
+  Object.values(daysToPoints)
+    .forEach((dayPoints) => dayPoints
+      .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
+};
+
+sortPoints();
+
 const pointsInfo = {
   pretext: Pretext,
-  daysToIds,
+  daysToPoints,
   groupsToTypes,
   typesList,
   optionsList,
