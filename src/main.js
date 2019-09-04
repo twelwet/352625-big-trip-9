@@ -35,15 +35,23 @@ const tripDays = new TripDays(pointsInfo);
 
 render(tripSortElement, tripDays.getElement(), Position.BEFOREEND);
 
+const onEscPress = (evt, container, tripEvent, tripEventEdit) => {
+  if (evt.keyCode === 27) {
+    container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
+  }
+};
+
 const renderTripEvent = (container, point, info) => {
   const tripEvent = new TripEvent(point, info);
   const tripEventEdit = new TripEventEdit(point, info);
 
   tripEvent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
     container.replaceChild(tripEventEdit.getElement(), tripEvent.getElement());
+    document.addEventListener(`keydown`, onEscPress);
   });
 
   tripEventEdit.getElement().querySelector(`.event--edit`).addEventListener(`submit`, () => {
+    document.addEventListener(`keydown`, onEscPress);
     container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
   });
 
