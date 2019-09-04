@@ -10,12 +10,11 @@ import TripSort from './components/trip-sort.js';
 import TripDays from './components/trip-days.js';
 import TripEvent from './components/trip-event.js';
 import TripEventEdit from './components/trip-event-edit.js';
-import FirstEvent from './components/first-event.js';
+import NoEvents from './components/no-events.js';
 
 const mainElement = document.querySelector(`.trip-main`);
 const infoElement = mainElement.querySelector(`.trip-info`);
 const controlsElement = mainElement.querySelector(`.trip-controls`);
-const newEventBtn = mainElement.querySelector(`.trip-main__event-add-btn`);
 const eventsElement = document.querySelector(`.trip-events`);
 
 const tripInfoCost = new TripInfoCost(pointsInfo);
@@ -27,19 +26,13 @@ render(controlsElement, menu.getElement(), Position.AFTERBEGIN);
 render(controlsElement, filters.getElement(), Position.BEFOREEND);
 
 if (pointsInfo.quantity === 0) {
-  newEventBtn.disabled = true;
 
-  const renderFirstEvent = (container) => {
-    const firstEvent = new FirstEvent();
-    render(container, firstEvent.getElement(), Position.BEFOREEND);
-
-    eventsElement.querySelector(`.trip-events__item`).addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
-    });
+  const renderNoEvents = (container) => {
+    const noEvents = new NoEvents();
+    render(container, noEvents.getElement(), Position.BEFOREEND);
   };
 
-  renderFirstEvent(eventsElement);
-
+  renderNoEvents(eventsElement);
 }
 
 if (pointsInfo.quantity > 0) {
