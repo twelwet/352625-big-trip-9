@@ -28,7 +28,7 @@ const filtersData = [
   }
 ];
 
-const QUANTITY_OF_POINTS = 10;
+const QUANTITY_OF_POINTS = 0; // value = 0 renders `no-events.js` element
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -233,15 +233,19 @@ const getPoint = () => {
 };
 
 const getPoints = (count = QUANTITY_OF_POINTS) => {
-  const dates = getPeriods(getSerialDates());
+  if (count > 0) {
+    const dates = getPeriods(getSerialDates());
 
-  let routePoints = [...(new Array(count))].map(getPoint);
+    let routePoints = [...(new Array(count))].map(getPoint);
 
-  for (const [index, date] of dates.entries()) {
-    routePoints[index].date = date;
+    for (const [index, date] of dates.entries()) {
+      routePoints[index].date = date;
+    }
+
+    return routePoints;
   }
 
-  return routePoints;
+  return [];
 };
 
 const points = getPoints();
@@ -260,23 +264,40 @@ const getGroupsToTypes = () => {
 
 const groupsToTypes = getGroupsToTypes();
 
-const daysToIds = points.reduce((acc, {date, id}) => {
-  const dateString = moment(date.start).format(`MMM D YYYY`);
+const daysToPoints = points.reduce((acc, point) => {
+  const dateString = moment(point.date.start).format(`MMM D YYYY`);
   return Object.assign(acc, {
-    [dateString]: [...acc[dateString] || [], id]
+    [dateString]: [...acc[dateString] || [], point]
   });
 }, {});
 
+const sortPointsInEachDay = () => {
+  Object.values(daysToPoints)
+    .forEach((dayPoints) => dayPoints
+      .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
+};
+
+sortPointsInEachDay();
+
+const getTotalPrice = () => {
+  if (points.length > 0) {
+    return points.map((point) => point.price).reduce((sum, current) => sum + current);
+  }
+
+  return 0;
+};
+
 const pointsInfo = {
+  quantity: points.length,
   pretext: Pretext,
-  daysToIds,
+  daysToPoints,
   groupsToTypes,
   typesList,
   optionsList,
   citiesList,
   cities: points.map((point) => point.city),
   dates: points.map((point) => point.date),
-  totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
+  totalPrice: getTotalPrice()
 };
 
-export {menuData, filtersData, points, pointsInfo};
+export {menuData, filtersData, pointsInfo};

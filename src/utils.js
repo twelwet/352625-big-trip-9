@@ -2,8 +2,7 @@
 
 const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
-  AFTEREND: `afterend`
+  BEFOREEND: `beforeend`
 };
 
 const createElement = (template) => {
