@@ -28,7 +28,7 @@ const filtersData = [
   }
 ];
 
-const QUANTITY_OF_POINTS = 0; // value = 0 renders `no-events.js` element
+const QUANTITY_OF_POINTS = 0;
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -271,13 +271,9 @@ const daysToPoints = points.reduce((acc, point) => {
   });
 }, {});
 
-const sortPointsInEachDay = () => {
-  Object.values(daysToPoints)
-    .forEach((dayPoints) => dayPoints
-      .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
-};
-
-sortPointsInEachDay();
+Object.values(daysToPoints)
+  .forEach((dayPoints) => dayPoints
+    .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
 
 const getTotalPrice = () => {
   if (points.length > 0) {
