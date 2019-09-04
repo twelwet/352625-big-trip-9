@@ -25,16 +25,6 @@ render(infoElement, tripInfoCost.getElement(), Position.BEFOREEND);
 render(controlsElement, menu.getElement(), Position.AFTERBEGIN);
 render(controlsElement, filters.getElement(), Position.BEFOREEND);
 
-if (points.length === 0) {
-
-  const renderNoEvents = (container) => {
-    const noEvents = new NoEvents();
-    render(container, noEvents.getElement(), Position.BEFOREEND);
-  };
-
-  renderNoEvents(eventsElement);
-}
-
 if (points.length > 0) {
   const tripInfo = new TripInfo(pointsInfo);
   const tripSort = new TripSort();
@@ -78,5 +68,13 @@ if (points.length > 0) {
   [...dayLists].forEach((dayList, index) => {
     pointsByDays[index].forEach((dayPoint) => renderTripEvent(dayList, dayPoint, pointsInfo));
   });
+
+} else {
+  const renderNoEvents = (container) => {
+    const noEvents = new NoEvents();
+    render(container, noEvents.getElement(), Position.BEFOREEND);
+  };
+
+  renderNoEvents(eventsElement);
 }
 
