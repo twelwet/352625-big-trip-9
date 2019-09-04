@@ -28,7 +28,7 @@ const filtersData = [
   }
 ];
 
-const QUANTITY_OF_POINTS = 10;
+const QUANTITY_OF_POINTS = -10; // 0 render FirstEvent class
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -233,15 +233,19 @@ const getPoint = () => {
 };
 
 const getPoints = (count = QUANTITY_OF_POINTS) => {
-  const dates = getPeriods(getSerialDates());
+  if (count > 0) {
+    const dates = getPeriods(getSerialDates());
 
-  let routePoints = [...(new Array(count))].map(getPoint);
+    let routePoints = [...(new Array(count))].map(getPoint);
 
-  for (const [index, date] of dates.entries()) {
-    routePoints[index].date = date;
+    for (const [index, date] of dates.entries()) {
+      routePoints[index].date = date;
+    }
+
+    return routePoints;
   }
 
-  return routePoints;
+  return [];
 };
 
 const points = getPoints();
@@ -275,7 +279,16 @@ const sortPointsInEachDay = () => {
 
 sortPointsInEachDay();
 
+const getTotalPrice = () => {
+  if (points.length > 0) {
+    return points.map((point) => point.price).reduce((sum, current) => sum + current);
+  }
+
+  return 0;
+};
+
 const pointsInfo = {
+  quantity: points.length,
   pretext: Pretext,
   daysToPoints,
   groupsToTypes,
@@ -284,7 +297,7 @@ const pointsInfo = {
   citiesList,
   cities: points.map((point) => point.city),
   dates: points.map((point) => point.date),
-  totalPrice: points.map((point) => point.price).reduce((sum, current) => sum + current)
+  totalPrice: getTotalPrice()
 };
 
 export {menuData, filtersData, pointsInfo};
