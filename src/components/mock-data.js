@@ -290,7 +290,7 @@ const pointsInfo = {
   citiesList,
   cities: points.map((point) => point.city),
   dates: points.map((point) => point.date),
-  totalPrice: getTotalPrice()
+  getTotalPrice
 };
 
 export {menuData, filtersData, points, pointsInfo};

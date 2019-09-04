@@ -3,8 +3,8 @@
 import {createElement} from "../utils";
 
 class TripInfoCost {
-  constructor({totalPrice}) {
-    this._totalPrice = totalPrice;
+  constructor({getTotalPrice}) {
+    this._totalPrice = getTotalPrice();
     this._element = null;
   }
 
