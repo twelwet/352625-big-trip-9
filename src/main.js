@@ -71,7 +71,7 @@ if (pointsInfo.quantity > 0) {
     });
 
     tripEventEdit.getElement().querySelector(`.event--edit`).addEventListener(`submit`, () => {
-      document.addEventListener(`keydown`, onEscPress);
+      document.removeEventListener(`keydown`, onEscPress);
       container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
     });
 
