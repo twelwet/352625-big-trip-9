@@ -73,7 +73,7 @@ if (points.length > 0) {
 
   const dayLists = document.querySelectorAll(`.trip-events__list`);
 
-  const pointsByDays = Object.values(pointsInfo.daysToPoints);
+  const pointsByDays = Object.values(pointsInfo.getDaysToPoints());
 
   [...dayLists].forEach((dayList, index) => {
     pointsByDays[index].forEach((dayPoint) => renderTripEvent(dayList, dayPoint, pointsInfo));

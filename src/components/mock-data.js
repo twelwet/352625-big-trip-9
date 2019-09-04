@@ -28,7 +28,7 @@ const filtersData = [
   }
 ];
 
-const QUANTITY_OF_POINTS = 0;
+const QUANTITY_OF_POINTS = 10;
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -264,22 +264,26 @@ const getGroupsToTypes = () => {
 
 const groupsToTypes = getGroupsToTypes();
 
-const daysToPoints = points.reduce((acc, point) => {
-  const dateString = moment(point.date.start).format(`MMM D YYYY`);
-  return Object.assign(acc, {
-    [dateString]: [...acc[dateString] || [], point]
-  });
-}, {});
+const getDaysToPoints = () => {
+  const daysToPoints = points.reduce((acc, point) => {
+    const dateString = moment(point.date.start).format(`MMM D YYYY`);
+    return Object.assign(acc, {
+      [dateString]: [...acc[dateString] || [], point]
+    });
+  }, {});
 
-Object.values(daysToPoints)
-  .forEach((dayPoints) => dayPoints
-    .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
+  Object.values(daysToPoints)
+    .forEach((dayPoints) => dayPoints
+      .sort((a, b) => Number(a.date.start) - Number(b.date.start)));
+
+  return daysToPoints;
+};
 
 const getTotalPrice = () => points.map((point) => point.price).reduce((sum, current) => sum + current, 0);
 
 const pointsInfo = {
   pretext: Pretext,
-  daysToPoints,
+  getDaysToPoints,
   groupsToTypes,
   typesList,
   optionsList,

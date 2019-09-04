@@ -4,8 +4,8 @@ import {createElement} from '../utils.js';
 import moment from 'moment';
 
 class TripDays {
-  constructor({daysToPoints}) {
-    this._daysToPoints = daysToPoints;
+  constructor({getDaysToPoints}) {
+    this._daysToPoints = getDaysToPoints();
     this._element = null;
   }
 
