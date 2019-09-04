@@ -29,9 +29,17 @@ render(controlsElement, filters.getElement(), Position.BEFOREEND);
 if (pointsInfo.quantity === 0) {
   newEventBtn.disabled = true;
 
-  const firstEvent = new FirstEvent();
+  const renderFirstEvent = (container) => {
+    const firstEvent = new FirstEvent();
+    render(container, firstEvent.getElement(), Position.BEFOREEND);
 
-  render(eventsElement, firstEvent.getElement(), Position.BEFOREEND);
+    eventsElement.querySelector(`.trip-events__item`).addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
+    });
+  };
+
+  renderFirstEvent(eventsElement);
+
 }
 
 if (pointsInfo.quantity > 0) {

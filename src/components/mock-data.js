@@ -28,7 +28,7 @@ const filtersData = [
   }
 ];
 
-const QUANTITY_OF_POINTS = -10; // 0 render FirstEvent class
+const QUANTITY_OF_POINTS = 8; // value = 0 renders FirstEvent element
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
