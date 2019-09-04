@@ -278,7 +278,6 @@ Object.values(daysToPoints)
 const getTotalPrice = () => points.map((point) => point.price).reduce((sum, current) => sum + current, 0);
 
 const pointsInfo = {
-  quantity: points.length,
   pretext: Pretext,
   daysToPoints,
   groupsToTypes,
@@ -290,4 +289,4 @@ const pointsInfo = {
   totalPrice: getTotalPrice()
 };
 
-export {menuData, filtersData, pointsInfo};
+export {menuData, filtersData, points, pointsInfo};

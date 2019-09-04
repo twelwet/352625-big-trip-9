@@ -1,7 +1,7 @@
 // main.js
 
 import {Position, render} from './utils.js';
-import {menuData, filtersData, pointsInfo} from './components/mock-data.js';
+import {menuData, filtersData, points, pointsInfo} from './components/mock-data.js';
 import TripInfo from './components/trip-info.js';
 import TripInfoCost from './components/trip-info-cost.js';
 import Menu from './components/menu.js';
@@ -25,7 +25,7 @@ render(infoElement, tripInfoCost.getElement(), Position.BEFOREEND);
 render(controlsElement, menu.getElement(), Position.AFTERBEGIN);
 render(controlsElement, filters.getElement(), Position.BEFOREEND);
 
-if (pointsInfo.quantity === 0) {
+if (points.length === 0) {
 
   const renderNoEvents = (container) => {
     const noEvents = new NoEvents();
@@ -35,7 +35,7 @@ if (pointsInfo.quantity === 0) {
   renderNoEvents(eventsElement);
 }
 
-if (pointsInfo.quantity > 0) {
+if (points.length > 0) {
   const tripInfo = new TripInfo(pointsInfo);
   const tripSort = new TripSort();
 
