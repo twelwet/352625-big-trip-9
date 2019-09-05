@@ -1,10 +1,11 @@
 // trip-event.js
 
+import Component from './component.js';
 import moment from 'moment';
-import {createElement} from '../utils.js';
 
-class TripEvent {
+class TripEvent extends Component {
   constructor({type, options, city, date, price}, {pretext, typesList, optionsList}) {
+    super();
     this._type = type;
     this._options = options;
     this._city = city;
@@ -13,7 +14,6 @@ class TripEvent {
     this._pretext = pretext;
     this._typesList = typesList;
     this._optionsList = optionsList;
-    this._element = null;
   }
 
   getTemplate() {
@@ -63,14 +63,6 @@ class TripEvent {
           </button>
         </div>
       </li>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
 

@@ -1,11 +1,11 @@
 // filters.js
 
-import {createElement} from "../utils";
+import Component from './component.js';
 
-class Filters {
+class Filters extends Component {
   constructor(data) {
+    super();
     this._data = data;
-    this._element = null;
   }
 
   getTemplate() {
@@ -29,14 +29,6 @@ class Filters {
         </div>`).join(``)}
       <button class="visually-hidden" type="submit">Accept filter</button>
       </form>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
 

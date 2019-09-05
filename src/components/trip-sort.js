@@ -1,10 +1,10 @@
 // trip-sort.js
 
-import {createElement} from "../utils";
+import Component from './component.js';
 
-class TripSort {
+class TripSort extends Component {
   constructor() {
-    this._element = null;
+    super();
   }
 
   getTemplate() {
@@ -38,14 +38,6 @@ class TripSort {
     
       <span class="trip-sort__item  trip-sort__item--offers">Offers</span>
     </form>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
 

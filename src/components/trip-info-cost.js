@@ -1,11 +1,11 @@
 // trip-info-cost.js
 
-import {createElement} from "../utils";
+import Component from './component.js';
 
-class TripInfoCost {
-  constructor({totalPrice}) {
-    this._totalPrice = totalPrice;
-    this._element = null;
+class TripInfoCost extends Component {
+  constructor({getTotalPrice}) {
+    super();
+    this._totalPrice = getTotalPrice();
   }
 
   getTemplate() {
@@ -13,15 +13,6 @@ class TripInfoCost {
         Total: &euro; <span class="trip-info__cost-value">${this._totalPrice}</span>
       </p>`;
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
 }
 
 export default TripInfoCost;

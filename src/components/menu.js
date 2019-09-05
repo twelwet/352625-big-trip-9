@@ -1,11 +1,11 @@
 // menu.js
 
-import {createElement} from "../utils";
+import Component from './component.js';
 
-class Menu {
+class Menu extends Component {
   constructor(data) {
+    super();
     this._data = data;
-    this._element = null;
   }
 
   getTemplate() {
@@ -15,14 +15,6 @@ class Menu {
         <a class="trip-tabs__btn ${item.isChecked === true ? `trip-tabs__btn--active` : ``}" href="#">${item.name}</a>
       `).join(``)}
       </nav>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
 
