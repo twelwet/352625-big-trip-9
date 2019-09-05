@@ -1,12 +1,12 @@
 // trip-days.js
 
-import {createElement} from '../utils.js';
+import Component from './component.js';
 import moment from 'moment';
 
-class TripDays {
+class TripDays extends Component {
   constructor({getDaysToPoints}) {
+    super();
     this._daysToPoints = getDaysToPoints();
-    this._element = null;
   }
 
   getTemplate() {
@@ -22,14 +22,6 @@ class TripDays {
           <ul class="trip-events__list"></ul>  
         </li>`).join(``)}
       </ul>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
 

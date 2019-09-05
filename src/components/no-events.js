@@ -1,22 +1,14 @@
 // no-events.js
 
-import {createElement} from "../utils";
+import Component from './component.js';
 
-class NoEvents {
+class NoEvents extends Component {
   constructor() {
-    this._element = null;
+    super();
   }
 
   getTemplate() {
     return `<p class="trip-events__msg">Click New Event to create your first point</p>`;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
 

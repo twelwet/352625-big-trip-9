@@ -1,10 +1,11 @@
 // trip-event-edit.js
 
+import Component from './component.js';
 import moment from 'moment';
-import {createElement} from '../utils.js';
 
-class TripEventEdit {
+class TripEventEdit extends Component {
   constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, citiesList, cities}) {
+    super();
     this._type = type;
     this._options = options;
     this._city = city;
@@ -16,7 +17,6 @@ class TripEventEdit {
     this._optionsList = optionsList;
     this._citiesList = citiesList;
     this._cities = cities;
-    this._element = null;
   }
 
   getTemplate() {
@@ -131,15 +131,6 @@ class TripEventEdit {
         </form>
       </li>`;
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
 }
 
 export default TripEventEdit;
