@@ -4,11 +4,14 @@ import {createElement} from "../utils";
 
 class Component {
   constructor() {
+    if (new.target === Component) {
+      throw new Error(`Can't instantiate AbstractComponent, only concrete one.`);
+    }
     this._element = null;
   }
 
   getTemplate() {
-    throw Error(`Abstract method not implemented`);
+    throw Error(`Abstract method not implemented: getTemplate`);
   }
 
   getElement() {
