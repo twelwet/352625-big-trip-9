@@ -30,19 +30,6 @@ class TripController {
     const tripInfoController = new TripInfoController(infoElement, this._points, this._pointsInfo);
     tripInfoController.init();
 
-    if (this._points.length > 0) {
-      const tripSort = new TripSort();
-
-      render(eventsElement, tripSort.getElement(), Position.BEFOREEND);
-
-      const tripSortElement = eventsElement.querySelector(`.trip-sort`);
-
-      const tripDays = new TripDays(this._pointsInfo);
-
-      render(tripSortElement, tripDays.getElement(), Position.BEFOREEND);
-
-    }
-
     const eventsController = new EventsController(eventsElement, this._points, this._pointsInfo);
     eventsController.init();
   }

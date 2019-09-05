@@ -4,6 +4,8 @@ import TripEvent from "../components/trip-event";
 import TripEventEdit from "../components/trip-event-edit";
 import {Position, render} from "../utils";
 import NoEvents from "../components/no-events";
+import TripSort from "../components/trip-sort";
+import TripDays from "../components/trip-days";
 
 class EventsController {
   constructor(container, points, pointsInfo) {
@@ -14,6 +16,16 @@ class EventsController {
 
   init() {
     if (this._points.length > 0) {
+      const tripSort = new TripSort();
+
+      render(this._container, tripSort.getElement(), Position.BEFOREEND);
+
+      const tripSortElement = this._container.querySelector(`.trip-sort`);
+
+      const tripDays = new TripDays(this._pointsInfo);
+
+      render(tripSortElement, tripDays.getElement(), Position.BEFOREEND);
+
       const dayLists = document.querySelectorAll(`.trip-events__list`);
 
       const pointsByDays = Object.values(this._pointsInfo.getDaysToPoints());
