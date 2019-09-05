@@ -1,7 +1,5 @@
 // trip.js
 
-import TripEvent from "../components/trip-event";
-import TripEventEdit from "../components/trip-event-edit";
 import {Position, render} from "../utils";
 import TripInfo from "../components/trip-info";
 import {filtersData, menuData} from "../components/mock-data";
@@ -10,7 +8,7 @@ import TripDays from "../components/trip-days";
 import TripInfoCost from "../components/trip-info-cost";
 import Menu from "../components/menu";
 import Filters from "../components/filters";
-import NoEvents from "../components/no-events";
+import EventsController from "./events";
 
 class TripController {
   constructor(points, pointsInfo) {
@@ -45,45 +43,10 @@ class TripController {
 
       render(tripSortElement, tripDays.getElement(), Position.BEFOREEND);
 
-      const dayLists = document.querySelectorAll(`.trip-events__list`);
-
-      const pointsByDays = Object.values(this._pointsInfo.getDaysToPoints());
-
-      [...dayLists].forEach((dayList, index) => {
-        pointsByDays[index].forEach((dayPoint) => this._renderTripEvent(dayList, dayPoint, this._pointsInfo));
-      });
-
-    } else {
-      const renderNoEvents = (container) => {
-        const noEvents = new NoEvents();
-        render(container, noEvents.getElement(), Position.BEFOREEND);
-      };
-
-      renderNoEvents(eventsElement);
     }
-  }
 
-  _renderTripEvent(container, point, info) {
-    const tripEvent = new TripEvent(point, info);
-    const tripEventEdit = new TripEventEdit(point, info);
-
-    const onEscPress = (evt) => {
-      if (evt.keyCode === 27) {
-        container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
-      }
-    };
-
-    tripEvent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
-      container.replaceChild(tripEventEdit.getElement(), tripEvent.getElement());
-      document.addEventListener(`keydown`, onEscPress);
-    });
-
-    tripEventEdit.getElement().querySelector(`.event--edit`).addEventListener(`submit`, () => {
-      document.removeEventListener(`keydown`, onEscPress);
-      container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
-    });
-
-    render(container, tripEvent.getElement(), Position.BEFOREEND);
+    const eventsController = new EventsController(eventsElement, this._points, this._pointsInfo);
+    eventsController.init();
   }
 }
 
