@@ -250,6 +250,14 @@ const getPoints = (count = QUANTITY_OF_POINTS) => {
 
 const points = getPoints();
 
+const getIdsToPeriods = (events) => {
+  const list = {};
+
+  events.forEach((event) => Object.assign(list, {[event.id]: event.date.end - event.date.start}));
+
+  return list;
+};
+
 const getGroupsToTypes = () => {
   const list = {};
 
@@ -284,6 +292,7 @@ const getTotalPrice = () => points.map((point) => point.price).reduce((sum, curr
 const pointsInfo = {
   pretext: Pretext,
   getDaysToPoints,
+  getIdsToPeriods,
   groupsToTypes,
   typesList,
   optionsList,

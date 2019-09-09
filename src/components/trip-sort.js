@@ -12,12 +12,12 @@ class TripSort extends Component {
       <span class="trip-sort__item  trip-sort__item--day">Day</span>
     
       <div class="trip-sort__item  trip-sort__item--event">
-        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" checked="">
+        <input id="sort-event" data-sort-type="event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" checked="">
         <label class="trip-sort__btn" for="sort-event">Event</label>
       </div>
     
       <div class="trip-sort__item  trip-sort__item--time">
-        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
+        <input id="sort-time" data-sort-type="time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
         <label class="trip-sort__btn" for="sort-time">
           Time
           <svg class="trip-sort__direction-icon" width="8" height="10" viewBox="0 0 8 10">
@@ -27,7 +27,7 @@ class TripSort extends Component {
       </div>
     
       <div class="trip-sort__item  trip-sort__item--price">
-        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price">
+        <input id="sort-price" data-sort-type="price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price">
         <label class="trip-sort__btn" for="sort-price">
           Price
           <svg class="trip-sort__direction-icon" width="8" height="10" viewBox="0 0 8 10">

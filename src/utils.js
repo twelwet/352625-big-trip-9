@@ -22,10 +22,11 @@ const render = (container, element, place) => {
   }
 };
 
-// const unrender = (element) => {
-//   if (element) {
-//     element.remove();
-//   }
-// };
+const unrender = (element) => {
+  if (element) {
+    element.innerHTML = ``;
+    element.remove();
+  }
+};
 
-export {Position, createElement, render};
+export {Position, createElement, render, unrender};
