@@ -250,13 +250,9 @@ const getPoints = (count = QUANTITY_OF_POINTS) => {
 
 const points = getPoints();
 
-const getIdsToPeriods = (events) => {
-  const list = {};
-
-  events.forEach((event) => Object.assign(list, {[event.id]: event.date.end - event.date.start}));
-
-  return list;
-};
+const getIdsToPeriods = (events) => events
+  .reduce((acc, event) => Object
+    .assign(acc, {[event.id]: event.date.end - event.date.start}), {});
 
 const getGroupsToTypes = () => {
   const list = {};
