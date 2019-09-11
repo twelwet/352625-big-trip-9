@@ -8,6 +8,8 @@ import TripSort from "../components/trip-sort";
 import TripDays from "../components/trip-days";
 import TripList from "../components/trip-list.js";
 
+const Sort = {EVENT: `event`, TIME: `time`, PRICE: `price`};
+
 class EventsController {
   constructor(container, points, pointsInfo) {
     this._container = container;
@@ -68,19 +70,13 @@ class EventsController {
     unrender(this._tripDays.getElement());
     unrender(this._tripList.getElement());
 
-    switch (evt.target.dataset.sortType) {
-      case `event`:
-        this._sortByDays();
-        break;
-      case `time`:
-        this._sortByTime();
-        break;
-      case `price`:
-        this._sortByPrice();
-        break;
-      default:
-        break;
-    }
+    const namesToSorts = {
+      [Sort.EVENT]: this._sortByDays,
+      [Sort.TIME]: this._sortByTime,
+      [Sort.PRICE]: this._sortByPrice
+    };
+
+    namesToSorts[evt.target.dataset.sortType].call(this);
   }
 
   _sortByDays() {
