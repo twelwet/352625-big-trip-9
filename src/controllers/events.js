@@ -100,12 +100,9 @@ class EventsController {
 
     const idsToPeriods = this._pointsInfo.getIdsToPeriods(this._points);
 
-    const sortedPeriods = Object.values(idsToPeriods).sort((a, b) => Number(a) - Number(b));
+    const sortedPeriods = Object.entries(idsToPeriods).sort((a, b) => Number(a[1]) - Number(b[1]));
 
-    const sortedIds = sortedPeriods
-      .map((period) => Object.keys(idsToPeriods).find((id) => idsToPeriods[id] === period));
-
-    const sortedPoints = sortedIds.map((id) => this._points.find((point) => point.id === id));
+    const sortedPoints = sortedPeriods.map((entry) => this._points.find((point) => point.id === entry[0]));
 
     sortedPoints
       .forEach((point) => this._renderTripEvent(this._tripList.getElement()
