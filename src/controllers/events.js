@@ -1,6 +1,5 @@
 // events.js
 
-import moment from 'moment';
 import TripEvent from "../components/trip-event";
 import TripEventEdit from "../components/trip-event-edit";
 import {Position, render, unrender} from "../utils";
@@ -78,18 +77,22 @@ class EventsController {
         type: formData.get(`event-type`),
         city: formData.get(`event-destination`),
         date: {
-          start: moment(formData.get(`event-start-time`)).valueOf(),
-          end: moment(formData.get(`event-end-time`)).valueOf()
+          start: formData.get(`event-start-time`).valueOf(),
+          end: formData.get(`event-end-time`).valueOf()
         },
         price: Number(formData.get(`event-price`)),
         options: getOptions(point, formData)
       };
 
-      this._points[this._points.findIndex((it) => it === point)] = entry;
+      this._points[this._points.findIndex((it) => it.id === point.id)] = entry;
 
-      console.log(this._points);
+      unrender(this._tripDays.getElement());
+      unrender(this._tripList.getElement());
 
-      container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
+      const sortType = [...this._tripSort.getElement().querySelectorAll(`INPUT`)]
+        .filter((it) => it.checked === true)[0].dataset.sortType;
+
+      this._sortByType(sortType);
     });
 
     render(container, tripEvent.getElement(), Position.BEFOREEND);
@@ -100,6 +103,16 @@ class EventsController {
     render(container, noEvents.getElement(), Position.BEFOREEND);
   }
 
+  _sortByType(type) {
+    const namesToSorts = {
+      [Sort.EVENT]: this._sortByDays,
+      [Sort.TIME]: this._sortByTime,
+      [Sort.PRICE]: this._sortByPrice
+    };
+
+    namesToSorts[type].call(this);
+  }
+
   _onSortClick(evt) {
     if (evt.target.tagName !== `INPUT`) {
       return;
@@ -108,13 +121,7 @@ class EventsController {
     unrender(this._tripDays.getElement());
     unrender(this._tripList.getElement());
 
-    const namesToSorts = {
-      [Sort.EVENT]: this._sortByDays,
-      [Sort.TIME]: this._sortByTime,
-      [Sort.PRICE]: this._sortByPrice
-    };
-
-    namesToSorts[evt.target.dataset.sortType].call(this);
+    this._sortByType(evt.target.dataset.sortType);
   }
 
   _sortByDays() {
