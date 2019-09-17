@@ -268,11 +268,11 @@ const getGroupsToTypes = () => {
 
 const groupsToTypes = getGroupsToTypes();
 
-const getDaysToPoints = () => {
-  const daysToPoints = points.reduce((acc, point) => {
-    const dateString = moment(point.date.start).format(`MMM D YYYY`);
+const getDaysToPoints = (events) => {
+  const daysToPoints = events.reduce((acc, event) => {
+    const dateString = moment(event.date.start).format(`MMM D YYYY`);
     return Object.assign(acc, {
-      [dateString]: [...acc[dateString] || [], point]
+      [dateString]: [...acc[dateString] || [], event]
     });
   }, {});
 

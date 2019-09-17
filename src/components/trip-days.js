@@ -4,9 +4,10 @@ import Component from './component.js';
 import moment from 'moment';
 
 class TripDays extends Component {
-  constructor({getDaysToPoints}) {
+  constructor(points, {getDaysToPoints}) {
     super();
-    this._daysToPoints = getDaysToPoints();
+    this._points = points;
+    this._daysToPoints = getDaysToPoints(this._points);
   }
 
   getTemplate() {
