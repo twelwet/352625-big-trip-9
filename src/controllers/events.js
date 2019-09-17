@@ -117,7 +117,7 @@ class EventsController {
 
   _sortByDays() {
     this._tripDays = new TripDays(this._points, this._pointsInfo);
-    render(this._tripSort.getElement(), this._tripDays.getElement(), Position.BEFOREEND);
+    render(this._container, this._tripDays.getElement(), Position.BEFOREEND);
 
     const dayLists = this._tripDays.getElement()
       .querySelectorAll(`.trip-events__list`);
