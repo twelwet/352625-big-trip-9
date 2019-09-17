@@ -85,7 +85,9 @@ class EventsController {
         options: getOptions(point, formData)
       };
 
-      point = entry;
+      this._points[this._points.findIndex((it) => it === point)] = entry;
+
+      console.log(this._points);
 
       container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
     });
