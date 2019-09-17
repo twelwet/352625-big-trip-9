@@ -1,5 +1,6 @@
 // events.js
 
+import moment from 'moment';
 import TripEvent from "../components/trip-event";
 import TripEventEdit from "../components/trip-event-edit";
 import {Position, render, unrender} from "../utils";
@@ -9,6 +10,21 @@ import TripDays from "../components/trip-days";
 import TripList from "../components/trip-list.js";
 
 const Sort = {EVENT: `event`, TIME: `time`, PRICE: `price`};
+const FORM_OPTION_MASK = `event-offer-`;
+
+const getOptions = (event, dataFromForm) => {
+  const optionsFromForm = [...dataFromForm]
+    .filter((entry) => entry[0].includes(FORM_OPTION_MASK))
+    .map((item) => item[0].slice(FORM_OPTION_MASK.length));
+
+  const options = JSON.parse(JSON.stringify(event.options));
+
+  for (const item of options) {
+    item.isChecked = optionsFromForm.includes(item.option);
+  }
+
+  return options;
+};
 
 class EventsController {
   constructor(container, points, pointsInfo) {
@@ -44,13 +60,33 @@ class EventsController {
       }
     };
 
-    tripEvent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    const rollUpBtnElement = tripEvent.getElement().querySelector(`.event__rollup-btn`);
+
+    rollUpBtnElement.addEventListener(`click`, () => {
       container.replaceChild(tripEventEdit.getElement(), tripEvent.getElement());
       document.addEventListener(`keydown`, onEscPress);
     });
 
-    tripEventEdit.getElement().querySelector(`.event--edit`).addEventListener(`submit`, () => {
+    const editFormElement = tripEventEdit.getElement().querySelector(`.event--edit`);
+
+    editFormElement.addEventListener(`submit`, () => {
       document.removeEventListener(`keydown`, onEscPress);
+      const formData = new FormData(editFormElement);
+
+      const entry = {
+        id: point.id,
+        type: formData.get(`event-type`),
+        city: formData.get(`event-destination`),
+        date: {
+          start: moment(formData.get(`event-start-time`)).valueOf(),
+          end: moment(formData.get(`event-end-time`)).valueOf()
+        },
+        price: Number(formData.get(`event-price`)),
+        options: getOptions(point, formData)
+      };
+
+      point = entry;
+
       container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
     });
 
