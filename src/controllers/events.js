@@ -55,6 +55,7 @@ class EventsController {
     const tripEventEdit = new TripEventEdit(point, info);
 
     const onEscPress = (evt) => {
+      document.removeEventListener(`keydown`, onEscPress);
       if (evt.keyCode === 27) {
         container.replaceChild(tripEvent.getElement(), tripEventEdit.getElement());
       }
