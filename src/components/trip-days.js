@@ -1,5 +1,6 @@
 // trip-days.js
 
+import moment from 'moment';
 import Component from './component.js';
 
 class TripDays extends Component {
@@ -12,7 +13,7 @@ class TripDays extends Component {
   getTemplate() {
     return `<ul class="trip-days">
       ${Object.keys(this._daysToPoints(this._points))
-        .sort((a, b) => a.valueOf() - b.valueOf())
+        .sort((a, b) => moment(a) - moment(b))
       .map((day, index) => `
         <li class="trip-days__item  day">
           <div class="day__info">

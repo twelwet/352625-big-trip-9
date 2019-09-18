@@ -63,12 +63,12 @@ class TripEventEdit extends Component {
               <label class="visually-hidden" for="event-start-time-1">
                 From
               </label>
-              <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(this._date.start).format(`L hh:mm`)}">
+              <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(this._date.start).format(`L HH:mm`)}">
               —
               <label class="visually-hidden" for="event-end-time-1">
                 To
               </label>
-              <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(this._date.end).format(`L hh:mm`)}">
+              <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(this._date.end).format(`L HH:mm`)}">
             </div>
         
             <div class="event__field-group  event__field-group--price">

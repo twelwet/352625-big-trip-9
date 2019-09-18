@@ -1,5 +1,6 @@
 // events.js
 
+import moment from 'moment';
 import TripEvent from "../components/trip-event";
 import TripEventEdit from "../components/trip-event-edit";
 import {Position, render, unrender} from "../utils";
@@ -78,8 +79,8 @@ class EventsController {
         type: formData.get(`event-type`),
         city: formData.get(`event-destination`),
         date: {
-          start: formData.get(`event-start-time`).valueOf(),
-          end: formData.get(`event-end-time`).valueOf()
+          start: moment(formData.get(`event-start-time`)).valueOf(),
+          end: moment(formData.get(`event-end-time`)).valueOf()
         },
         price: Number(formData.get(`event-price`)),
         options: getOptions(point, formData)
