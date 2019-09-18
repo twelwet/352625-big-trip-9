@@ -13,7 +13,7 @@ const FORM_OPTION_MASK = `event-offer-`;
 
 const getOptions = (event, dataFromForm) => {
   const optionsFromForm = [...dataFromForm]
-    .filter((entry) => entry[0].includes(FORM_OPTION_MASK))
+    .filter(([entry]) => entry.includes(FORM_OPTION_MASK))
     .map((item) => item[0].slice(FORM_OPTION_MASK.length));
 
   const options = JSON.parse(JSON.stringify(event.options));
@@ -42,7 +42,7 @@ class EventsController {
       this._tripSort.getElement()
         .addEventListener(`click`, this._onSortClick.bind(this));
 
-      this._sortByDays();
+      this._sortByType(this._getSortType());
 
     } else {
       this._renderNoEvents(this._container);
@@ -70,6 +70,7 @@ class EventsController {
 
     editFormElement.addEventListener(`submit`, () => {
       document.removeEventListener(`keydown`, onEscPress);
+
       const formData = new FormData(editFormElement);
 
       const entry = {
@@ -86,13 +87,9 @@ class EventsController {
 
       this._points[this._points.findIndex((it) => it.id === point.id)] = entry;
 
-      unrender(this._tripDays.getElement());
-      unrender(this._tripList.getElement());
+      this._unrenderBoard();
 
-      const sortType = [...this._tripSort.getElement().querySelectorAll(`INPUT`)]
-        .filter((it) => it.checked === true)[0].dataset.sortType;
-
-      this._sortByType(sortType);
+      this._sortByType(this._getSortType());
     });
 
     render(container, tripEvent.getElement(), Position.BEFOREEND);
@@ -104,13 +101,7 @@ class EventsController {
   }
 
   _sortByType(type) {
-    const namesToSorts = {
-      [Sort.EVENT]: this._sortByDays,
-      [Sort.TIME]: this._sortByTime,
-      [Sort.PRICE]: this._sortByPrice
-    };
-
-    namesToSorts[type].call(this);
+    this._getNamesToSorts()[type].call(this);
   }
 
   _onSortClick(evt) {
@@ -118,8 +109,7 @@ class EventsController {
       return;
     }
 
-    unrender(this._tripDays.getElement());
-    unrender(this._tripList.getElement());
+    this._unrenderBoard();
 
     this._sortByType(evt.target.dataset.sortType);
   }
@@ -166,6 +156,24 @@ class EventsController {
     sortedPoints
       .forEach((point) => this._renderTripEvent(this._tripList.getElement()
         .querySelector(`.trip-events__list`), point, this._pointsInfo));
+  }
+
+  _getSortType() {
+    return [...this._tripSort.getElement().querySelectorAll(`INPUT`)]
+      .find((it) => it.checked).dataset.sortType;
+  }
+
+  _getNamesToSorts() {
+    return {
+      [Sort.EVENT]: this._sortByDays,
+      [Sort.TIME]: this._sortByTime,
+      [Sort.PRICE]: this._sortByPrice
+    };
+  }
+
+  _unrenderBoard() {
+    unrender(this._tripDays.getElement());
+    unrender(this._tripList.getElement());
   }
 }
 
