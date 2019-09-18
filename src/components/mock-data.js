@@ -295,7 +295,8 @@ const pointsInfo = {
   citiesList,
   cities: points.map((point) => point.city),
   dates: points.map((point) => point.date),
-  getTotalPrice
+  getTotalPrice,
+  getOptions
 };
-
+console.log(groupsToTypes)
 export {menuData, filtersData, points, pointsInfo};
