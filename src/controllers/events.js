@@ -51,7 +51,9 @@ class EventsController {
     }
   }
 
+
   _renderTripEvent(container, point, info) {
+
     const tripEvent = new TripEvent(point, info);
     const tripEventEdit = new TripEventEdit(point, info);
 
@@ -71,6 +73,10 @@ class EventsController {
     const cityField = editFormElement.querySelector(`.event__input--destination`);
 
     rollUpBtnElement.addEventListener(`click`, () => {
+      const otherEvents = [...document.querySelectorAll(`.trip-events__item`)]
+        .filter((it) => it.querySelector(`.event__rollup-btn`) !== rollUpBtnElement);
+      console.log(otherEvents);
+
       typesElements.forEach((item) => item.addEventListener(`click`, tripEventEdit.onTypeChange.bind(tripEventEdit)));
       cityField.addEventListener(`blur`, tripEventEdit.onCityChange.bind(tripEventEdit));
 

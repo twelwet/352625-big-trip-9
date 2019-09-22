@@ -4,8 +4,9 @@ import Component from './component.js';
 import moment from 'moment';
 
 class TripEvent extends Component {
-  constructor({type, options, city, date, price}, {pretext, typesList, optionsList}) {
+  constructor({id, type, options, city, date, price}, {pretext, typesList, optionsList}) {
     super();
+    this._id = id;
     this._type = type;
     this._options = options;
     this._city = city;
@@ -58,7 +59,7 @@ class TripEvent extends Component {
                 </li>`).join(``)}
           </ul>
         
-          <button class="event__rollup-btn" type="button">
+          <button class="event__rollup-btn" data-id="${this._id}" type="button">
             <span class="visually-hidden">Open event</span>
           </button>
         </div>
