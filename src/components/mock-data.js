@@ -178,11 +178,11 @@ const randomizeOptions = (arr, min = 0, max = 2) => {
 };
 
 const getOptions = (type) => {
-  const typeOptions = groupsToOptions[typesList[type].group]
+  return groupsToOptions[typesList[type].group]
     .map((item) => ({option: item, isChecked: false}));
-
-  return randomizeOptions(typeOptions);
 };
+
+const getRandomOptions = (type) => randomizeOptions(getOptions(type));
 
 const getCity = () => Object.values(City)[getRandomIndex(Object.values(City))];
 
@@ -215,7 +215,7 @@ const getPrice = (minPrice = 10, maxPrice = 500) => getRandom(minPrice, maxPrice
 const getPoint = () => {
   const id = Math.random().toString(36).slice(2);
   const type = getType();
-  const options = getOptions(type);
+  const options = getRandomOptions(type);
   const city = getCity();
   const price = getPrice();
 
@@ -295,8 +295,7 @@ const pointsInfo = {
   citiesList,
   cities: points.map((point) => point.city),
   dates: points.map((point) => point.date),
-  getTotalPrice,
-  getOptions
+  getTotalPrice
 };
 
-export {menuData, filtersData, points, pointsInfo};
+export {menuData, filtersData, points, pointsInfo, getOptions};

@@ -1,5 +1,6 @@
 // events.js
 
+import {getOptions} from "../components/mock-data";
 import moment from 'moment';
 import TripEvent from "../components/trip-event";
 import TripEventEdit from "../components/trip-event-edit";
@@ -12,12 +13,12 @@ import TripList from "../components/trip-list.js";
 const Sort = {EVENT: `event`, TIME: `time`, PRICE: `price`};
 const FORM_OPTION_MASK = `event-offer-`;
 
-const getOptions = (event, dataFromForm) => {
+const getOptionsByTypeChange = (type, dataFromForm) => {
   const optionsFromForm = [...dataFromForm]
     .filter(([entry]) => entry.includes(FORM_OPTION_MASK))
     .map((item) => item[0].slice(FORM_OPTION_MASK.length));
 
-  const options = JSON.parse(JSON.stringify(event.options));
+  const options = JSON.parse(JSON.stringify(getOptions(type)));
 
   for (const item of options) {
     item.isChecked = optionsFromForm.includes(item.option);
@@ -92,7 +93,7 @@ class EventsController {
           end: moment(formData.get(`event-end-time`)).valueOf()
         },
         price: Number(formData.get(`event-price`)),
-        options: getOptions(point, formData)
+        options: getOptionsByTypeChange(formData.get(`event-type`), formData)
       };
 
       this._points[this._points.findIndex((it) => it.id === point.id)] = entry;

@@ -2,9 +2,10 @@
 
 import Component from './component.js';
 import moment from 'moment';
+import {getOptions} from "../components/mock-data";
 
 class TripEventEdit extends Component {
-  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, citiesList, cities, getOptions}) {
+  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, citiesList, cities}) {
     super();
     this._type = type;
     this._options = options;
