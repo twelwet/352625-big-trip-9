@@ -89,10 +89,17 @@ class EventsController {
 
       const type = formData.get(`event-type`);
 
+      const saveCity = (city) => {
+        if (!citiesList[city]) {
+          return point.city;
+        }
+        return city;
+      };
+
       const entry = {
         id: point.id,
         type,
-        city: formData.get(`event-destination`),
+        city: saveCity(formData.get(`event-destination`)),
         date: {
           start: moment(formData.get(`event-start-time`)).valueOf(),
           end: moment(formData.get(`event-end-time`)).valueOf()

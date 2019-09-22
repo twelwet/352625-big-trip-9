@@ -5,7 +5,7 @@ import moment from 'moment';
 import {citiesList, getOptions} from "../components/mock-data";
 
 class TripEventEdit extends Component {
-  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, citiesList, cities}) {
+  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, cities}) {
     super();
     this._type = type;
     this._options = options;
