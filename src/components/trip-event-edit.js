@@ -2,7 +2,7 @@
 
 import Component from './component.js';
 import moment from 'moment';
-import {getOptions} from "../components/mock-data";
+import {citiesList, getOptions} from "../components/mock-data";
 
 class TripEventEdit extends Component {
   constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, citiesList, cities}) {
@@ -159,6 +159,31 @@ class TripEventEdit extends Component {
     `).join(``);
 
     typeToggle.checked = false;
+  }
+
+  onCityChange(evt) {
+    if (!citiesList[evt.target.value]) {
+      evt.target.value = this._city;
+      return;
+    }
+
+    const cityInfoElement = this.getElement().querySelector(`.event__section--destination`);
+
+    cityInfoElement.innerHTML = ``;
+
+    cityInfoElement.innerHTML = `
+      <section class="event__section  event__section--destination">
+       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+       <p class="event__destination-description">${this._citiesList[evt.target.value].text}</p>
+    
+       <div class="event__photos-container">
+         <div class="event__photos-tape">
+           ${this._citiesList[evt.target.value].photos.map((photo) => `
+             <img class="event__photo" src="${photo}" alt="Event photo">
+           `).join(``)}
+         </div>
+       </div>
+     </section>`;
   }
 }
 

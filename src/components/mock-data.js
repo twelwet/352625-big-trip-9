@@ -297,5 +297,5 @@ const pointsInfo = {
   dates: points.map((point) => point.date),
   getTotalPrice
 };
-
-export {menuData, filtersData, points, pointsInfo, getOptions};
+console.log(citiesList)
+export {menuData, filtersData, points, pointsInfo, getOptions, citiesList};

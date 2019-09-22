@@ -1,6 +1,6 @@
 // events.js
 
-import {getOptions} from "../components/mock-data";
+import {getOptions, citiesList} from "../components/mock-data";
 import moment from 'moment';
 import TripEvent from "../components/trip-event";
 import TripEventEdit from "../components/trip-event-edit";
@@ -68,9 +68,11 @@ class EventsController {
 
     const typesElements = [...editFormElement.querySelectorAll(`.event__type-input`)];
 
-    rollUpBtnElement.addEventListener(`click`, () => {
+    const cityField = editFormElement.querySelector(`.event__input--destination`);
 
+    rollUpBtnElement.addEventListener(`click`, () => {
       typesElements.forEach((item) => item.addEventListener(`click`, tripEventEdit.onTypeChange.bind(tripEventEdit)));
+      cityField.addEventListener(`blur`, tripEventEdit.onCityChange.bind(tripEventEdit));
 
       container.replaceChild(tripEventEdit.getElement(), tripEvent.getElement());
       document.addEventListener(`keydown`, onEscPress);
@@ -81,19 +83,22 @@ class EventsController {
       document.removeEventListener(`keydown`, onEscPress);
 
       typesElements.forEach((item) => item.removeEventListener(`click`, tripEventEdit.onTypeChange.bind(tripEventEdit)));
+      cityField.removeEventListener(`blur`, tripEventEdit.onCityChange.bind(tripEventEdit));
 
       const formData = new FormData(editFormElement);
 
+      const type = formData.get(`event-type`);
+
       const entry = {
         id: point.id,
-        type: formData.get(`event-type`),
+        type,
         city: formData.get(`event-destination`),
         date: {
           start: moment(formData.get(`event-start-time`)).valueOf(),
           end: moment(formData.get(`event-end-time`)).valueOf()
         },
         price: Number(formData.get(`event-price`)),
-        options: getOptionsByTypeChange(formData.get(`event-type`), formData)
+        options: getOptionsByTypeChange(type, formData)
       };
 
       this._points[this._points.findIndex((it) => it.id === point.id)] = entry;
