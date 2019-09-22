@@ -65,45 +65,21 @@ class EventsController {
 
     const editFormElement = tripEventEdit.getElement().querySelector(`.event--edit`);
 
-    const typeToggle = editFormElement.querySelector(`.event__type-toggle`);
-    const typeIcon = editFormElement.querySelector(`.event__type-icon`);
-    const typeTextElement = editFormElement.querySelector(`.event__type-output`);
-    const offersElement = editFormElement.querySelector(`.event__available-offers`);
     const typesElements = [...editFormElement.querySelectorAll(`.event__type-input`)];
-
-    const onTypeChange = (evt) => {
-      typeIcon.src = this._pointsInfo.typesList[evt.target.value].icon;
-      typeTextElement.innerHTML = `${evt.target.value} ${this._pointsInfo.pretext[this._pointsInfo.typesList[evt.target.value].group]}`;
-
-      offersElement.innerHTML = ``;
-
-      const options = this._pointsInfo.getOptions(evt.target.value);
-
-      offersElement.innerHTML = options.map((item) => `
-                <div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option}-1" type="checkbox" name="event-offer-${item.option}" ${item.isChecked === true ? `checked=""` : ``} >
-                  <label class="event__offer-label" for="event-offer-${item.option}-1">
-                    <span class="event__offer-title">${this._pointsInfo.optionsList[item.option].text}</span>
-                    +
-                    € <span class="event__offer-price">${this._pointsInfo.optionsList[item.option].price}</span>
-                  </label>
-                </div>
-              `).join(``);
-
-      typeToggle.checked = false;
-    };
 
     rollUpBtnElement.addEventListener(`click`, () => {
 
-      typesElements.forEach((item) => item.addEventListener(`click`, onTypeChange));
+      typesElements.forEach((item) => item.addEventListener(`click`, tripEventEdit.onTypeChange.bind(tripEventEdit)));
 
       container.replaceChild(tripEventEdit.getElement(), tripEvent.getElement());
       document.addEventListener(`keydown`, onEscPress);
     });
 
-    editFormElement.addEventListener(`submit`, () => {
+    editFormElement.addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
       document.removeEventListener(`keydown`, onEscPress);
-      typesElements.forEach((item) => item.removeEventListener(`click`, onTypeChange));
+
+      typesElements.forEach((item) => item.removeEventListener(`click`, tripEventEdit.onTypeChange.bind(tripEventEdit)));
 
       const formData = new FormData(editFormElement);
 

@@ -298,5 +298,5 @@ const pointsInfo = {
   getTotalPrice,
   getOptions
 };
-console.log(groupsToTypes)
+
 export {menuData, filtersData, points, pointsInfo};
