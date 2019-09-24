@@ -97,9 +97,8 @@ class EventController {
   }
 
   setDefaultView() {
-    if (this._container.contains(this._event.getElement())) {
-      console.log(this._container);
-      // this._container.replaceChild(this._event.getElement(), this._eventEdit.getElement());
+    if (this._container.contains(this._eventEdit.getElement())) {
+      this._container.replaceChild(this._event.getElement(), this._eventEdit.getElement());
     }
   }
 }
