@@ -98,8 +98,11 @@ class EventsController {
     const sortedPoints = sortedPeriods.map((entry) => this._points.find((point) => point.id === entry[0]));
 
     sortedPoints
-      .forEach((point) => new EventController(this._tripList.getElement()
-        .querySelector(`.trip-events__list`), point, this._onDataChange, this._onChangeView));
+      .forEach((point) => {
+        const eventController = new EventController(this._tripList.getElement()
+          .querySelector(`.trip-events__list`), point, this._onDataChange, this._onChangeView);
+        this._subscriptions.push(eventController.setDefaultView.bind(eventController));
+      });
   }
 
   _sortByPrice() {
@@ -112,8 +115,11 @@ class EventsController {
     const sortedPoints = sortedPrices.map((price) => this._points.find((point) => point.price === price));
 
     sortedPoints
-      .forEach((point) => new EventController(this._tripList.getElement()
-        .querySelector(`.trip-events__list`), point, this._onDataChange, this._onChangeView));
+      .forEach((point) => {
+        const eventController = new EventController(this._tripList.getElement()
+          .querySelector(`.trip-events__list`), point, this._onDataChange, this._onChangeView);
+        this._subscriptions.push(eventController.setDefaultView.bind(eventController));
+      });
   }
 
   _getSortType() {
