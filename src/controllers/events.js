@@ -47,12 +47,13 @@ class EventsController {
   }
 
   _onDataChange(newData, oldData) {
+    this._subscriptions = [];
+
     this._points[this._points.findIndex((it) => it.id === oldData.id)] = newData;
 
     this._unrenderBoard();
 
     this._sortByType(this._getSortType());
-
   }
 
   _sortByType(type) {
