@@ -111,9 +111,9 @@ class EventsController {
 
     render(this._container, this._tripList.getElement(), Position.BEFOREEND);
 
-    const sortedPrices = this._points.map((point) => point.price).sort((a, b) => Number(a) - Number(b));
+    const sortedPrices = this._points.map((point) => [point.price, point.id]).sort((a, b) => Number(a[0]) - Number(b[0]));
 
-    const sortedPoints = sortedPrices.map((price) => this._points.find((point) => point.price === price));
+    const sortedPoints = sortedPrices.map(([, id]) => this._points.find((point) => point.id === id));
 
     sortedPoints
       .forEach((point) => {
