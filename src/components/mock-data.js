@@ -28,7 +28,7 @@ const filtersData = [
   }
 ];
 
-const QUANTITY_OF_POINTS = 10;
+const QUANTITY_OF_POINTS = 4;
 
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                      Cras aliquet varius magna, non porta ligula feugiat eget. 
@@ -178,11 +178,11 @@ const randomizeOptions = (arr, min = 0, max = 2) => {
 };
 
 const getOptions = (type) => {
-  const typeOptions = groupsToOptions[typesList[type].group]
+  return groupsToOptions[typesList[type].group]
     .map((item) => ({option: item, isChecked: false}));
-
-  return randomizeOptions(typeOptions);
 };
+
+const getRandomOptions = (type) => randomizeOptions(getOptions(type));
 
 const getCity = () => Object.values(City)[getRandomIndex(Object.values(City))];
 
@@ -215,7 +215,7 @@ const getPrice = (minPrice = 10, maxPrice = 500) => getRandom(minPrice, maxPrice
 const getPoint = () => {
   const id = Math.random().toString(36).slice(2);
   const type = getType();
-  const options = getOptions(type);
+  const options = getRandomOptions(type);
   const city = getCity();
   const price = getPrice();
 
@@ -250,13 +250,9 @@ const getPoints = (count = QUANTITY_OF_POINTS) => {
 
 const points = getPoints();
 
-const getIdsToPeriods = (events) => {
-  const list = {};
-
-  events.forEach((event) => Object.assign(list, {[event.id]: event.date.end - event.date.start}));
-
-  return list;
-};
+const getIdsToPeriods = (events) => events
+  .reduce((acc, event) => Object
+    .assign(acc, {[event.id]: event.date.end - event.date.start}), {});
 
 const getGroupsToTypes = () => {
   const list = {};
@@ -272,11 +268,11 @@ const getGroupsToTypes = () => {
 
 const groupsToTypes = getGroupsToTypes();
 
-const getDaysToPoints = () => {
-  const daysToPoints = points.reduce((acc, point) => {
-    const dateString = moment(point.date.start).format(`MMM D YYYY`);
+const getDaysToPoints = (events) => {
+  const daysToPoints = events.reduce((acc, event) => {
+    const dateString = moment(event.date.start).format(`MMM D YYYY`);
     return Object.assign(acc, {
-      [dateString]: [...acc[dateString] || [], point]
+      [dateString]: [...acc[dateString] || [], event]
     });
   }, {});
 
@@ -302,4 +298,4 @@ const pointsInfo = {
   getTotalPrice
 };
 
-export {menuData, filtersData, points, pointsInfo};
+export {menuData, filtersData, points, pointsInfo, getOptions, citiesList};

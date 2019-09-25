@@ -2,9 +2,10 @@
 
 import Component from './component.js';
 import moment from 'moment';
+import {citiesList, getOptions} from "../components/mock-data";
 
 class TripEventEdit extends Component {
-  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, citiesList, cities}) {
+  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, cities}) {
     super();
     this._type = type;
     this._options = options;
@@ -17,6 +18,7 @@ class TripEventEdit extends Component {
     this._optionsList = optionsList;
     this._citiesList = citiesList;
     this._cities = cities;
+    this._getOptions = getOptions;
   }
 
   getTemplate() {
@@ -63,12 +65,12 @@ class TripEventEdit extends Component {
               <label class="visually-hidden" for="event-start-time-1">
                 From
               </label>
-              <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(this._date.start).format(`L hh:mm`)}">
+              <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${moment(this._date.start).format(`L HH:mm`)}">
               —
               <label class="visually-hidden" for="event-end-time-1">
                 To
               </label>
-              <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(this._date.end).format(`L hh:mm`)}">
+              <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${moment(this._date.end).format(`L HH:mm`)}">
             </div>
         
             <div class="event__field-group  event__field-group--price">
@@ -130,6 +132,58 @@ class TripEventEdit extends Component {
           </section>
         </form>
       </li>`;
+  }
+
+  onTypeChange(evt) {
+    const typeIcon = this.getElement().querySelector(`.event__type-icon`);
+    const typeTextElement = this.getElement().querySelector(`.event__type-output`);
+    const offersElement = this.getElement().querySelector(`.event__available-offers`);
+    const typeToggle = this.getElement().querySelector(`.event__type-toggle`);
+
+    typeIcon.src = this._typesList[evt.target.value].icon;
+    typeTextElement.innerHTML = `${evt.target.value} ${this._pretext[this._typesList[evt.target.value].group]}`;
+
+    offersElement.innerHTML = ``;
+
+    const options = this._getOptions(evt.target.value);
+
+    offersElement.innerHTML = options.map((item) => `
+      <div class="event__offer-selector">
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option}-1" type="checkbox" name="event-offer-${item.option}" ${item.isChecked === true ? `checked=""` : ``} >
+        <label class="event__offer-label" for="event-offer-${item.option}-1">
+          <span class="event__offer-title">${this._optionsList[item.option].text}</span>
+          +
+          € <span class="event__offer-price">${this._optionsList[item.option].price}</span>
+        </label>
+      </div>
+    `).join(``);
+
+    typeToggle.checked = false;
+  }
+
+  onCityChange(evt) {
+    if (!citiesList[evt.target.value]) {
+      evt.target.value = this._city;
+      return;
+    }
+
+    const cityInfoElement = this.getElement().querySelector(`.event__section--destination`);
+
+    cityInfoElement.innerHTML = ``;
+
+    cityInfoElement.innerHTML = `
+      <section class="event__section  event__section--destination">
+       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+       <p class="event__destination-description">${this._citiesList[evt.target.value].text}</p>
+    
+       <div class="event__photos-container">
+         <div class="event__photos-tape">
+           ${this._citiesList[evt.target.value].photos.map((photo) => `
+             <img class="event__photo" src="${photo}" alt="Event photo">
+           `).join(``)}
+         </div>
+       </div>
+     </section>`;
   }
 }
 
