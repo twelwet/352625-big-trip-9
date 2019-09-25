@@ -3,8 +3,11 @@
 import TripEvent from '../components/trip-event';
 import TripEventEdit from '../components/trip-event-edit';
 import {citiesList, getOptions, pointsInfo} from "../components/mock-data";
-import moment from 'moment';
 import {Position, render} from "../utils";
+import moment from 'moment';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/light.css';
 
 const FORM_OPTION_MASK = `event-offer-`;
 
@@ -71,6 +74,21 @@ class EventController {
   }
 
   _create() {
+    flatpickr([...this._eventEdit.getElement().querySelectorAll(`.event__input--time`)][0], {
+      allowInput: false,
+      defaultDate: this._data.date.start,
+      enableTime: true,
+      dateFormat: `m/d/y H:i`,
+    });
+
+    flatpickr([...this._eventEdit.getElement().querySelectorAll(`.event__input--time`)][1], {
+      allowInput: false,
+      defaultDate: this._data.date.end,
+      enableTime: true,
+      dateFormat: `m/d/y H:i`,
+    });
+
+
     this._openBtnElement.addEventListener(`click`, () => {
       this._onChangeView();
       this._addListeners();
