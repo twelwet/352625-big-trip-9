@@ -15,7 +15,7 @@ class EventsController {
     this._points = points;
     this._pointsInfo = pointsInfo;
     this._tripSort = new TripSort();
-    this._tripDays = new TripDays(this._points, this._pointsInfo);
+    this._tripDays = new TripDays(this._points);
     this._tripList = new TripList();
 
     this._subscriptions = [];
@@ -70,7 +70,7 @@ class EventsController {
   }
 
   _sortByDays() {
-    this._tripDays = new TripDays(this._points, this._pointsInfo);
+    this._tripDays = new TripDays(this._points);
     render(this._container, this._tripDays.getElement(), Position.BEFOREEND);
 
     const dayLists = this._tripDays.getElement()

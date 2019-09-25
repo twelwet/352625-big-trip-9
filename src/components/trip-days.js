@@ -2,12 +2,13 @@
 
 import moment from 'moment';
 import Component from './component.js';
+import {pointsInfo} from "./mock-data";
 
 class TripDays extends Component {
-  constructor(points, {getDaysToPoints}) {
+  constructor(points) {
     super();
     this._points = points;
-    this._daysToPoints = getDaysToPoints;
+    this._daysToPoints = pointsInfo.getDaysToPoints;
   }
 
   getTemplate() {
