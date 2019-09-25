@@ -147,6 +147,10 @@ class TripEventEdit extends Component {
     const offersElement = this.getElement().querySelector(`.event__available-offers`);
     const typeToggle = this.getElement().querySelector(`.event__type-toggle`);
 
+    if (evt.target.tagName !== `INPUT`) {
+      return;
+    }
+
     typeIcon.src = this._typesList[evt.target.value].icon;
     typeTextElement.innerHTML = `${evt.target.value} ${this._pretext[this._typesList[evt.target.value].group]}`;
 
