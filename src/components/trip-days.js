@@ -8,12 +8,11 @@ class TripDays extends Component {
   constructor(points) {
     super();
     this._points = points;
-    this._daysToPoints = pointsInfo.getDaysToPoints;
   }
 
   getTemplate() {
     return `<ul class="trip-days">
-      ${Object.keys(this._daysToPoints(this._points))
+      ${Object.keys(pointsInfo.getDaysToPoints(this._points))
         .sort((a, b) => moment(a) - moment(b))
       .map((day, index) => `
         <li class="trip-days__item  day">
