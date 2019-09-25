@@ -16,9 +16,7 @@ class TripEventEdit extends Component {
     this._groupsToTypes = groupsToTypes;
     this._typesList = typesList;
     this._optionsList = optionsList;
-    this._citiesList = citiesList;
     this._cities = cities;
-    this._getOptions = getOptions;
   }
 
   getTemplate() {
@@ -103,35 +101,44 @@ class TripEventEdit extends Component {
               <h3 class="event__section-title  event__section-title--offers">Offers</h3>
               <div class="event__available-offers">
     
-              ${this._options.map((item) => `
-                <div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option}-1" type="checkbox" name="event-offer-${item.option}" ${item.isChecked === true ? `checked=""` : ``} >
-                  <label class="event__offer-label" for="event-offer-${item.option}-1">
-                    <span class="event__offer-title">${this._optionsList[item.option].text}</span>
-                    +
-                    € <span class="event__offer-price">${this._optionsList[item.option].price}</span>
-                  </label>
-                </div>
-              `).join(``)}
+              ${this._getOptionsTemplate(this._options)}
     
               </div>
             </section>
-        
-            <section class="event__section  event__section--destination">
+            
+            ${this._getCityTemplate(this._city)}
+
+          </section>
+        </form>
+      </li>`;
+  }
+
+  _getOptionsTemplate(options) {
+    return options.map((item) => `
+      <div class="event__offer-selector">
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option}-1" type="checkbox" name="event-offer-${item.option}" ${item.isChecked === true ? `checked=""` : ``} >
+        <label class="event__offer-label" for="event-offer-${item.option}-1">
+          <span class="event__offer-title">${this._optionsList[item.option].text}</span>
+          +
+          € <span class="event__offer-price">${this._optionsList[item.option].price}</span>
+        </label>
+      </div>
+    `).join(``);
+  }
+
+  _getCityTemplate(city) {
+    return `<section class="event__section  event__section--destination">
               <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-              <p class="event__destination-description">${this._citiesList[this._city].text}</p>
+              <p class="event__destination-description">${citiesList[city].text}</p>
         
               <div class="event__photos-container">
                 <div class="event__photos-tape">
-                  ${this._citiesList[this._city].photos.map((photo) => `
+                  ${citiesList[city].photos.map((photo) => `
                     <img class="event__photo" src="${photo}" alt="Event photo">
                   `).join(``)}
                 </div>
               </div>
-            </section>
-          </section>
-        </form>
-      </li>`;
+            </section>`;
   }
 
   onTypeChange(evt) {
@@ -143,20 +150,9 @@ class TripEventEdit extends Component {
     typeIcon.src = this._typesList[evt.target.value].icon;
     typeTextElement.innerHTML = `${evt.target.value} ${this._pretext[this._typesList[evt.target.value].group]}`;
 
-    offersElement.innerHTML = ``;
+    const options = getOptions(evt.target.value);
 
-    const options = this._getOptions(evt.target.value);
-
-    offersElement.innerHTML = options.map((item) => `
-      <div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${item.option}-1" type="checkbox" name="event-offer-${item.option}" ${item.isChecked === true ? `checked=""` : ``} >
-        <label class="event__offer-label" for="event-offer-${item.option}-1">
-          <span class="event__offer-title">${this._optionsList[item.option].text}</span>
-          +
-          € <span class="event__offer-price">${this._optionsList[item.option].price}</span>
-        </label>
-      </div>
-    `).join(``);
+    offersElement.innerHTML = this._getOptionsTemplate(options);
 
     typeToggle.checked = false;
   }
@@ -171,19 +167,7 @@ class TripEventEdit extends Component {
 
     cityInfoElement.innerHTML = ``;
 
-    cityInfoElement.innerHTML = `
-      <section class="event__section  event__section--destination">
-       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-       <p class="event__destination-description">${this._citiesList[evt.target.value].text}</p>
-    
-       <div class="event__photos-container">
-         <div class="event__photos-tape">
-           ${this._citiesList[evt.target.value].photos.map((photo) => `
-             <img class="event__photo" src="${photo}" alt="Event photo">
-           `).join(``)}
-         </div>
-       </div>
-     </section>`;
+    cityInfoElement.innerHTML = this._getCityTemplate(evt.target.value);
   }
 }
 
