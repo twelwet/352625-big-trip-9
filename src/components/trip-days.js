@@ -2,17 +2,17 @@
 
 import moment from 'moment';
 import Component from './component.js';
+import {pointsInfo} from "./mock-data";
 
 class TripDays extends Component {
-  constructor(points, {getDaysToPoints}) {
+  constructor(points) {
     super();
     this._points = points;
-    this._daysToPoints = getDaysToPoints;
   }
 
   getTemplate() {
     return `<ul class="trip-days">
-      ${Object.keys(this._daysToPoints(this._points))
+      ${Object.keys(pointsInfo.getDaysToPoints(this._points))
         .sort((a, b) => moment(a) - moment(b))
       .map((day, index) => `
         <li class="trip-days__item  day">

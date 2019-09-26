@@ -15,7 +15,7 @@ class EventsController {
     this._points = points;
     this._pointsInfo = pointsInfo;
     this._tripSort = new TripSort();
-    this._tripDays = new TripDays(this._points, this._pointsInfo);
+    this._tripDays = new TripDays(this._points);
     this._tripList = new TripList();
 
     this._subscriptions = [];
@@ -47,12 +47,13 @@ class EventsController {
   }
 
   _onDataChange(newData, oldData) {
+    this._subscriptions = [];
+
     this._points[this._points.findIndex((it) => it.id === oldData.id)] = newData;
 
     this._unrenderBoard();
 
     this._sortByType(this._getSortType());
-
   }
 
   _sortByType(type) {
@@ -70,7 +71,7 @@ class EventsController {
   }
 
   _sortByDays() {
-    this._tripDays = new TripDays(this._points, this._pointsInfo);
+    this._tripDays = new TripDays(this._points);
     render(this._container, this._tripDays.getElement(), Position.BEFOREEND);
 
     const dayLists = this._tripDays.getElement()
@@ -110,9 +111,9 @@ class EventsController {
 
     render(this._container, this._tripList.getElement(), Position.BEFOREEND);
 
-    const sortedPrices = this._points.map((point) => point.price).sort((a, b) => Number(a) - Number(b));
+    const sortedPrices = this._points.map((point) => [point.price, point.id]).sort((a, b) => Number(a[0]) - Number(b[0]));
 
-    const sortedPoints = sortedPrices.map((price) => this._points.find((point) => point.price === price));
+    const sortedPoints = sortedPrices.map(([, id]) => this._points.find((point) => point.id === id));
 
     sortedPoints
       .forEach((point) => {
