@@ -32,72 +32,30 @@ class EventController {
     this._onChangeView = onChangeView;
     this._onDataChange = onDataChange;
 
-    this._event = new TripEvent(data, pointsInfo);
-    this._openBtnElement = this._event.getElement().querySelector(`.event__rollup-btn`);
-
-    this._eventEdit = new TripEventEdit(data, pointsInfo);
-    this._editFormElement = this._eventEdit.getElement().querySelector(`.event--edit`);
-    this._typeListElement = this._editFormElement.querySelector(`.event__type-list`);
-    this._cityFieldElement = this._editFormElement.querySelector(`.event__input--destination`);
-
-    this._onCityChange = this._eventEdit.onCityChange.bind(this._eventEdit);
-    this._onTypeChange = this._eventEdit.onTypeChange.bind(this._eventEdit);
     this._onEscPress = this._onEscPress.bind(this);
 
     this._create();
   }
 
-  _addListeners() {
-    this._typeListElement.addEventListener(`click`, this._onTypeChange);
-    this._cityFieldElement.addEventListener(`blur`, this._onCityChange);
-    document.addEventListener(`keydown`, this._onEscPress);
-  }
-
-  _removeListeners() {
-    this._typeListElement.removeEventListener(`click`, this._onTypeChange);
-    this._cityFieldElement.removeEventListener(`blur`, this._onCityChange);
-    document.removeEventListener(`keydown`, this._onEscPress);
-  }
-
-  _onEscPress(evt) {
-    document.removeEventListener(`keydown`, this._onEscPress);
-    if (evt.keyCode === 27) {
-      this._container.replaceChild(this._event.getElement(), this._eventEdit.getElement());
-    }
-  }
-
-  _saveCity(city) {
-    if (!citiesList[city]) {
-      return this._data.city;
-    }
-    return city;
-  }
-
-  _create() {
-    const dateFields = [...this._eventEdit.getElement().querySelectorAll(`.event__input--time`)];
-
-    flatpickr(dateFields[0], {
-      // maxDate: this._data.date.end,
-      allowInput: false,
-      defaultDate: this._data.date.start,
-      enableTime: true,
-      dateFormat: `d.m.Y H:i`,
-    });
-
-    flatpickr(dateFields[1], {
-      // minDate: this._data.date.start,
-      allowInput: false,
-      defaultDate: this._data.date.end,
-      enableTime: true,
-      dateFormat: `d.m.Y H:i`,
-    });
-
+  _initEvent() {
+    this._event = new TripEvent(this._data, pointsInfo);
+    this._openBtnElement = this._event.getElement().querySelector(`.event__rollup-btn`);
 
     this._openBtnElement.addEventListener(`click`, () => {
       this._onChangeView();
       this._addListeners();
       this._container.replaceChild(this._eventEdit.getElement(), this._event.getElement());
     });
+  }
+
+  _initEventEdit() {
+    this._eventEdit = new TripEventEdit(this._data, pointsInfo);
+    this._editFormElement = this._eventEdit.getElement().querySelector(`.event--edit`);
+    this._typeListElement = this._editFormElement.querySelector(`.event__type-list`);
+    this._cityFieldElement = this._editFormElement.querySelector(`.event__input--destination`);
+
+    this._onCityChange = this._eventEdit.onCityChange.bind(this._eventEdit);
+    this._onTypeChange = this._eventEdit.onTypeChange.bind(this._eventEdit);
 
     this._editFormElement.addEventListener(`submit`, (evt) => {
       evt.preventDefault();
@@ -120,6 +78,57 @@ class EventController {
       };
 
       this._onDataChange(entry, this._data);
+    });
+  }
+
+  _addListeners() {
+    this._typeListElement.addEventListener(`click`, this._onTypeChange);
+    this._cityFieldElement.addEventListener(`blur`, this._onCityChange);
+    document.addEventListener(`keydown`, this._onEscPress);
+  }
+
+  _removeListeners() {
+    this._typeListElement.removeEventListener(`click`, this._onTypeChange);
+    this._cityFieldElement.removeEventListener(`blur`, this._onCityChange);
+    document.removeEventListener(`keydown`, this._onEscPress);
+  }
+
+  _onEscPress(evt) {
+    if (evt.keyCode === 27) {
+      this._removeListeners();
+      this._container.replaceChild(this._event.getElement(), this._eventEdit.getElement());
+
+      this._eventEdit = null;
+      this._initEventEdit();
+    }
+  }
+
+  _saveCity(city) {
+    if (!citiesList[city]) {
+      return this._data.city;
+    }
+    return city;
+  }
+
+  _create() {
+    this._initEvent();
+    this._initEventEdit();
+
+    const dateFields = [...this._eventEdit.getElement().querySelectorAll(`.event__input--time`)];
+    flatpickr(dateFields[0], {
+      // maxDate: this._data.date.end,
+      allowInput: false,
+      defaultDate: this._data.date.start,
+      enableTime: true,
+      dateFormat: `d.m.Y H:i`,
+    });
+
+    flatpickr(dateFields[1], {
+      // minDate: this._data.date.start,
+      allowInput: false,
+      defaultDate: this._data.date.end,
+      enableTime: true,
+      dateFormat: `d.m.Y H:i`,
     });
 
     render(this._container, this._event.getElement(), Position.BEFOREEND);
