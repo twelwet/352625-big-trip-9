@@ -77,19 +77,19 @@ class EventController {
     const dateFields = [...this._eventEdit.getElement().querySelectorAll(`.event__input--time`)];
 
     flatpickr(dateFields[0], {
-      maxDate: this._data.date.end,
+      // maxDate: this._data.date.end,
       allowInput: false,
       defaultDate: this._data.date.start,
       enableTime: true,
-      dateFormat: `d/m/y H:i`,
+      dateFormat: `d.m.Y H:i`,
     });
 
     flatpickr(dateFields[1], {
-      minDate: this._data.date.start,
+      // minDate: this._data.date.start,
       allowInput: false,
       defaultDate: this._data.date.end,
       enableTime: true,
-      dateFormat: `d/m/y H:i`,
+      dateFormat: `d.m.Y H:i`,
     });
 
 
@@ -112,8 +112,8 @@ class EventController {
         type,
         city: this._saveCity(formData.get(`event-destination`)),
         date: {
-          start: moment(formData.get(`event-start-time`), `DD/MM/YY HH:mm`).valueOf(),
-          end: moment(formData.get(`event-end-time`), `DD/MM/YY HH:mm`).valueOf()
+          start: moment(formData.get(`event-start-time`), `DD.MM.YYYY HH:mm`).valueOf(),
+          end: moment(formData.get(`event-end-time`), `DD.MM.YYYY HH:mm`).valueOf()
         },
         price: Number(formData.get(`event-price`)),
         options: getOptionsByTypeChange(type, formData)
