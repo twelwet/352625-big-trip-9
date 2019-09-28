@@ -1,10 +1,10 @@
 // events.js
 
-import {Position, render, unrender} from "../utils";
-import NoEvents from "../components/no-events";
-import TripSort from "../components/trip-sort";
-import TripDays from "../components/trip-days";
-import TripList from "../components/trip-list.js";
+import {Position, render, unrender} from '../utils';
+import NoEvents from '../components/no-events';
+import TripSort from '../components/trip-sort';
+import TripDays from '../components/trip-days';
+import TripList from '../components/trip-list.js';
 import EventController from './event.js';
 
 const Sort = {EVENT: `event`, TIME: `time`, PRICE: `price`};
@@ -47,13 +47,18 @@ class EventsController {
   }
 
   _onDataChange(newData, oldData) {
-    this._subscriptions = [];
-
-    this._points[this._points.findIndex((it) => it.id === oldData.id)] = newData;
-
-    this._unrenderBoard();
-
-    this._sortByType(this._getSortType());
+    const index = this._points.findIndex((it) => it.id === oldData.id);
+    switch (newData) {
+      case null:
+        this._tasks = [...this._tasks.slice(0, index), ...this._tasks.slice(index + 1)];
+        break;
+      default:
+        this._subscriptions = [];
+        this._points[index] = newData;
+        this._unrenderBoard();
+        this._sortByType(this._getSortType());
+        break;
+    }
   }
 
   _sortByType(type) {

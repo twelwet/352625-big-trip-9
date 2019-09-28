@@ -2,8 +2,8 @@
 
 import TripEvent from '../components/trip-event';
 import TripEventEdit from '../components/trip-event-edit';
-import {citiesList, getOptions, pointsInfo} from "../components/mock-data";
-import {Position, render} from "../utils";
+import {citiesList, getOptions, pointsInfo} from '../components/mock-data';
+import {Position, render} from '../utils';
 import moment from 'moment';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
