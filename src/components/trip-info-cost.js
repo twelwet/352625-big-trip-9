@@ -3,9 +3,9 @@
 import Component from './component.js';
 
 class TripInfoCost extends Component {
-  constructor({getTotalPrice}) {
+  constructor(points, {getTotalPrice}) {
     super();
-    this._totalPrice = getTotalPrice();
+    this._totalPrice = getTotalPrice(points);
   }
 
   getTemplate() {

@@ -80,8 +80,11 @@ class EventController {
       this._onDataChange(entry, this._data);
     });
 
-    this._editFormElement.querySelector(`.event__reset-btn`).addEventListener(`click`, () => {
-      // console.log(evt.target);
+    this._deleteBtnElement = this._editFormElement.querySelector(`.event__reset-btn`);
+
+    this._deleteBtnElement.addEventListener(`click`, () => {
+      this._removeListeners();
+
       this._onDataChange(null, this._data);
     });
   }

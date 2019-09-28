@@ -283,7 +283,7 @@ const getDaysToPoints = (events) => {
   return daysToPoints;
 };
 
-const getTotalPrice = () => points.map((point) => point.price).reduce((sum, current) => sum + current, 0);
+const getTotalPrice = (events) => events.map((event) => event.price).reduce((sum, current) => sum + current, 0);
 
 const pointsInfo = {
   pretext: Pretext,

@@ -35,9 +35,11 @@ const toggleMenu = (nodes, evt) => {
     node.classList.toggle(`trip-tabs__btn--active`);
 
     node.addEventListener(`click`, onNavBtnPress);
+    node.href = `#`;
 
     if (node.classList.contains(`trip-tabs__btn--active`) && node === evt.target) {
       node.removeEventListener(`click`, onNavBtnPress);
+      node.removeAttribute(`href`);
     }
   });
 };
