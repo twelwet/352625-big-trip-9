@@ -48,17 +48,19 @@ class EventsController {
 
   _onDataChange(newData, oldData) {
     const index = this._points.findIndex((it) => it.id === oldData.id);
+    this._subscriptions = [];
+
     switch (newData) {
       case null:
-        this._tasks = [...this._tasks.slice(0, index), ...this._tasks.slice(index + 1)];
+        this._points = [...this._points.slice(0, index), ...this._points.slice(index + 1)];
         break;
       default:
-        this._subscriptions = [];
         this._points[index] = newData;
-        this._unrenderBoard();
-        this._sortByType(this._getSortType());
         break;
     }
+
+    this._unrenderBoard();
+    this._sortByType(this._getSortType());
   }
 
   _sortByType(type) {
