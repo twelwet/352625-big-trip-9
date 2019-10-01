@@ -2,6 +2,7 @@
 
 import TripFiltersController from "./trip-filters.js";
 import EventsController from "./events";
+import NewEventController from '../controllers/event-new.js';
 
 class TableController {
   constructor(headerElement, mainElement, filtersData, points, pointsInfo) {
@@ -11,9 +12,16 @@ class TableController {
     this._eventsController = new EventsController(this._eventsElement, points, pointsInfo);
   }
 
+  _initNewEvent() {
+    this._sortElement = this._eventsElement.querySelector(`.trip-sort`);
+    this._newEventController = new NewEventController(this._sortElement, this._eventsController);
+    this._newEventController.init();
+  }
+
   init() {
     this._tripFiltersController.init();
     this._eventsController.init();
+    this._initNewEvent();
   }
 
   hide() {

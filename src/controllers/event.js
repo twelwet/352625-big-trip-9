@@ -77,7 +77,7 @@ class EventController {
         options: getOptionsByTypeChange(type, formData)
       };
 
-      this._onDataChange(entry, this._data);
+      this._onDataChange([entry, this._data]);
     });
 
     this._deleteBtnElement = this._editFormElement.querySelector(`.event__reset-btn`);
@@ -85,7 +85,7 @@ class EventController {
     this._deleteBtnElement.addEventListener(`click`, () => {
       this._removeListeners();
 
-      this._onDataChange(null, this._data);
+      this._onDataChange([null, this._data]);
     });
   }
 

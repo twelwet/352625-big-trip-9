@@ -2,7 +2,9 @@
 
 const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  BEFORE: `before`,
+  AFTER: `after`
 };
 
 const createElement = (template) => {
@@ -18,6 +20,12 @@ const render = (container, element, place) => {
       break;
     case Position.BEFOREEND:
       container.append(element);
+      break;
+    case Position.BEFORE:
+      container.before(element);
+      break;
+    case Position.AFTER:
+      container.after(element);
       break;
   }
 };
