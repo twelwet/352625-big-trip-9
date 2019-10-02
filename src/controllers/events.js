@@ -20,7 +20,7 @@ class EventsController {
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
-    this.onDataChange = this.onDataChange.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
@@ -46,23 +46,25 @@ class EventsController {
     this._subscriptions.forEach((it) => it());
   }
 
-  onDataChange([newData, oldData]) {
+  _onDataChange(newData, oldData) {
     this._subscriptions = [];
 
-    if (oldData) {
-      const index = this._points.findIndex((it) => it.id === oldData.id);
+    const getIndex = () => this._points.findIndex((it) => it.id === oldData.id);
 
-      if (newData) {
-        this._points[index] = newData;
-        return;
-      }
+    switch (true) {
+      case (newData === null):
+        const index = getIndex();
+        this._points = [...this._points.slice(0, index), ...this._points.slice(index + 1)];
+        break;
 
-      this._points = [...this._points.slice(0, index), ...this._points.slice(index + 1)];
-      return;
+      case (oldData === null):
+        this._points.unshift(newData);
+        break;
 
-    } else {
-      this._points.unshift(newData);
+      case (newData !== null && oldData !== null):
+        this._points[getIndex()] = newData;
     }
+
 
     this._unrenderBoard();
     this._sortByType(this._getSortType());
@@ -93,7 +95,7 @@ class EventsController {
 
     [...dayLists].forEach((dayList, index) => {
       pointsByDays[index].forEach((dayPoint) => {
-        const eventController = new EventController(dayList, dayPoint, this.onDataChange, this._onChangeView);
+        const eventController = new EventController(dayList, dayPoint, this._onDataChange, this._onChangeView);
         this._subscriptions.push(eventController.setDefaultView.bind(eventController));
       });
     });
@@ -113,7 +115,7 @@ class EventsController {
     sortedPoints
       .forEach((point) => {
         const eventController = new EventController(this._tripList.getElement()
-          .querySelector(`.trip-events__list`), point, this.onDataChange, this._onChangeView);
+          .querySelector(`.trip-events__list`), point, this._onDataChange, this._onChangeView);
         this._subscriptions.push(eventController.setDefaultView.bind(eventController));
       });
   }
@@ -130,7 +132,7 @@ class EventsController {
     sortedPoints
       .forEach((point) => {
         const eventController = new EventController(this._tripList.getElement()
-          .querySelector(`.trip-events__list`), point, this.onDataChange, this._onChangeView);
+          .querySelector(`.trip-events__list`), point, this._onDataChange, this._onChangeView);
         this._subscriptions.push(eventController.setDefaultView.bind(eventController));
       });
   }

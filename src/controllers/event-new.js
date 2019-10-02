@@ -80,7 +80,7 @@ class NewEventController {
         options: getOptionsByTypeChange(type, formData)
       };
 
-      this._eventsController.onDataChange([entry, null]);
+      this._eventsController._onDataChange(entry, null);
 
       this._unrender();
     });
