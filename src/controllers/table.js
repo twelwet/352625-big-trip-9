@@ -5,11 +5,11 @@ import EventsController from "./events";
 import NewEventController from '../controllers/event-new.js';
 
 class TableController {
-  constructor(headerElement, mainElement, filtersData, points, pointsInfo) {
+  constructor(headerElement, mainElement, filtersData, points, pointsInfo, tripInfoController) {
     this._controlsElement = headerElement.querySelector(`.trip-controls`);
     this._eventsElement = mainElement.querySelector(`.trip-events`);
     this._tripFiltersController = new TripFiltersController(this._controlsElement, filtersData);
-    this._eventsController = new EventsController(this._eventsElement, points, pointsInfo);
+    this._eventsController = new EventsController(this._eventsElement, points, pointsInfo, tripInfoController);
   }
 
   _initNewEvent() {

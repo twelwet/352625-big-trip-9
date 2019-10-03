@@ -27,6 +27,11 @@ class TripInfoController {
     this._initTripInfoCost();
     this._initTripInfo();
   }
+
+  update() {
+    const totalPriceElement = this._tripInfoCost.getElement().querySelector(`.trip-info__cost-value`);
+    totalPriceElement.innerText = this._pointsInfo.getTotalPrice(this._points);
+  }
 }
 
 export default TripInfoController;

@@ -17,7 +17,7 @@ const boardElement = main.querySelector(`.page-body__container`);
 
 const tripInfoController = new TripInfoController(infoElement, points, pointsInfo);
 const tripMenuController = new TripMenuController(controlsElement, menuData);
-const tableController = new TableController(header, main, filtersData, points, pointsInfo);
+const tableController = new TableController(header, main, filtersData, points, pointsInfo, tripInfoController);
 const statsController = new StatsController(boardElement);
 
 tripInfoController.init();

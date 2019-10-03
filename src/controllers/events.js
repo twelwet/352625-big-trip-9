@@ -10,13 +10,14 @@ import EventController from './event.js';
 const Sort = {EVENT: `event`, TIME: `time`, PRICE: `price`};
 
 class EventsController {
-  constructor(container, points, pointsInfo) {
+  constructor(container, points, pointsInfo, tripInfoController) {
     this._container = container;
     this._points = points;
     this._pointsInfo = pointsInfo;
     this._tripSort = new TripSort();
     this._tripDays = new TripDays(this._points);
     this._tripList = new TripList();
+    this._tripInfoController = tripInfoController;
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
@@ -68,6 +69,7 @@ class EventsController {
 
     this._unrenderBoard();
     this._sortByType(this._getSortType());
+    this._tripInfoController.update();
   }
 
   _sortByType(type) {
