@@ -47,7 +47,7 @@ class NewEventController {
   }
 
   _create() {
-    this._eventNew = new TripEventNew(this._typesList);
+    this._eventNew = new TripEventNew();
     this._cancelBtn = this._eventNew.getElement().querySelector(`.event__reset-btn`);
     this._typeListElement = this._eventNew.getElement().querySelector(`.event__type-list`);
 

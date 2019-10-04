@@ -5,7 +5,7 @@ import moment from 'moment';
 import {citiesList, getOptions} from "../components/mock-data";
 
 class TripEventEdit extends Component {
-  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList, cities}) {
+  constructor({type, options, city, date, price}, {pretext, groupsToTypes, typesList, optionsList}) {
     super();
     this._type = type;
     this._options = options;
@@ -16,7 +16,6 @@ class TripEventEdit extends Component {
     this._groupsToTypes = groupsToTypes;
     this._typesList = typesList;
     this._optionsList = optionsList;
-    this._cities = cities;
   }
 
   getTemplate() {
@@ -53,7 +52,7 @@ class TripEventEdit extends Component {
               </label>
               <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._city}" list="destination-list-1">
               <datalist id="destination-list-1">
-                ${this._cities.map((item) => `
+                ${Object.keys(citiesList).map((item) => `
                   <option value="${item}"></option>
                 `).join(``)}
               </datalist>
