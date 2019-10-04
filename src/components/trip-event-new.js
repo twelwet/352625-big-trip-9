@@ -1,7 +1,7 @@
 // trip-event-new.js
 
 import Component from './component.js';
-import {pointsInfo} from "./mock-data";
+import {citiesList, pointsInfo} from "./mock-data";
 
 class TripEventNew extends Component {
   constructor() {
@@ -87,10 +87,9 @@ class TripEventNew extends Component {
                 </label>
                 <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="" list="destination-list-1">
                 <datalist id="destination-list-1">
-                  <option value="Amsterdam"></option>
-                  <option value="Geneva"></option>
-                  <option value="Chamonix"></option>
-                  <option value="Saint Petersburg"></option>
+                  ${Object.keys(citiesList).map((item) => `
+                    <option value="${item}"></option>
+                  `).join(``)}
                 </datalist>
               </div>
 
