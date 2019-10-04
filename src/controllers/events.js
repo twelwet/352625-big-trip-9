@@ -53,23 +53,23 @@ class EventsController {
     const getIndex = () => this._points.findIndex((it) => it.id === oldData.id);
 
     switch (true) {
-      case (newData === null):
+      case (newData === null): // onDelete
         const index = getIndex();
         this._points = [...this._points.slice(0, index), ...this._points.slice(index + 1)];
         break;
 
-      case (oldData === null):
+      case (oldData === null): // newEvent
         this._points.unshift(newData);
         break;
 
       case (newData !== null && oldData !== null):
-        this._points[getIndex()] = newData;
+        this._points[getIndex()] = newData; // onSubmit
     }
 
 
     this._unrenderBoard();
     this._sortByType(this._getSortType());
-    this._tripInfoController.update();
+    this._tripInfoController.update(this._points);
   }
 
   _sortByType(type) {

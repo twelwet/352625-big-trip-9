@@ -285,6 +285,34 @@ const getDaysToPoints = (events) => {
 
 const getTotalPrice = (events) => events.reduce((sum, current) => sum + current.price, 0);
 
+const getCities = (events) => events.map((event) => event.city);
+
+const getDates = (events) => events.map((event) => event.date);
+
+const getCitiesInfo = (events) => {
+  const cities = getCities(events);
+
+  switch (cities.length) {
+    case 1:
+      return cities[0];
+    case 2:
+      return `${cities[0]} — ${cities[cities.length - 1]}`;
+    default:
+      return `${cities[0]} — ... — ${cities[cities.length - 1]}`;
+  }
+};
+
+const getDatesInfo = (events) => {
+  const dates = getDates(events);
+
+  switch (dates.length) {
+    case 1:
+      return `${moment(dates[0].start).format(`MMM D`)}`;
+    default:
+      return `${moment(dates[0].start).format(`MMM D`)} — ${moment(dates[dates.length - 1].end).format(`MMM D`)}`;
+  }
+};
+
 const pointsInfo = {
   pretext: Pretext,
   getDaysToPoints,
@@ -293,7 +321,9 @@ const pointsInfo = {
   typesList,
   optionsList,
   citiesList,
-  cities: points.map((point) => point.city),
+  getCitiesInfo,
+  getDatesInfo,
+  cities: getCities(points),
   dates: points.map((point) => point.date),
   getTotalPrice
 };

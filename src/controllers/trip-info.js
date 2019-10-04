@@ -9,13 +9,13 @@ class TripInfoController {
     this._container = container;
     this._points = points;
     this._pointsInfo = pointsInfo;
+    this._tripInfo = new TripInfo(points, pointsInfo);
     this._tripInfoCost = new TripInfoCost(points, pointsInfo);
   }
 
   _initTripInfo() {
     if (this._points.length > 0) {
-      const tripInfo = new TripInfo(this._pointsInfo);
-      render(this._container, tripInfo.getElement(), Position.AFTERBEGIN);
+      render(this._container, this._tripInfo.getElement(), Position.AFTERBEGIN);
     }
   }
 
@@ -28,9 +28,14 @@ class TripInfoController {
     this._initTripInfo();
   }
 
-  update() {
+  update(points) {
     const totalPriceElement = this._tripInfoCost.getElement().querySelector(`.trip-info__cost-value`);
-    totalPriceElement.innerText = this._pointsInfo.getTotalPrice(this._points);
+    const citiesElement = this._tripInfo.getElement().querySelector(`.trip-info__title`);
+    const datesElement = this._tripInfo.getElement().querySelector(`.trip-info__dates`);
+
+    totalPriceElement.innerText = this._pointsInfo.getTotalPrice(points);
+    citiesElement.innerText = this._pointsInfo.getCitiesInfo(points);
+    datesElement.innerText = this._pointsInfo.getDatesInfo(points);
   }
 }
 
