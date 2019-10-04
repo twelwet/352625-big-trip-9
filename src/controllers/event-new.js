@@ -5,17 +5,6 @@ import {Position, render, unrender} from "../utils";
 import moment from 'moment';
 import {citiesList, getOptions} from "../components/mock-data";
 
-// newEventBtn = ``;
-// +1) onNewEventBtnClick render newEvent.getElement() between `.trip-sort` and `.trip-days`
-//    newEventBtn becomes disabled
-// 2) onSaveClick -> update this._points
-//    new FormElement (onDataChange -> cb?)
-//    newEventBtn becomes enabled
-// +3) onCancelClick -> unrender newEvent.getElement()
-//    newEventBtn becomes enabled
-// 4) Prove working with all sorting types
-// 5) Prove working with case without any event (renderNoEvents)
-
 const FORM_OPTION_MASK = `event-offer-`;
 
 const getOptionsByTypeChange = (type, dataFromForm) => {

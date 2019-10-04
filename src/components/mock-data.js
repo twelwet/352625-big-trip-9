@@ -324,7 +324,7 @@ const pointsInfo = {
   getCitiesInfo,
   getDatesInfo,
   cities: getCities(points),
-  dates: points.map((point) => point.date),
+  dates: getDates(points),
   getTotalPrice
 };
 
