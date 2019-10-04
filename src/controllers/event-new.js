@@ -4,6 +4,19 @@ import TripEventNew from '../components/trip-event-new.js';
 import {Position, render, unrender} from "../utils";
 import moment from 'moment';
 import {citiesList, getOptions} from "../components/mock-data";
+import flatpickr from "./event";
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/light.css';
+
+const HOUR = 60 * 60 * 1000;
+
+const getDateForNewEvent = () => {
+  const now = Date.now();
+  return {
+    start: now,
+    end: now + HOUR
+  };
+}
 
 const FORM_OPTION_MASK = `event-offer-`;
 
@@ -23,6 +36,7 @@ const getOptionsByTypeChange = (type, dataFromForm) => {
 
 class NewEventController {
   constructor(container, eventsController) {
+    this._date = getDateForNewEvent();
     this._container = container;
     this._eventNewBtn = document.querySelector(`.trip-main__event-add-btn`);
 
@@ -65,6 +79,24 @@ class NewEventController {
     this._onTypeChange = this._eventNew.onTypeChange.bind(this._eventNew);
 
     this._addListeners();
+
+    const dateFields = [...this._eventNew.getElement().querySelectorAll(`.event__input--time`)];
+
+    flatpickr(dateFields[0], {
+      // maxDate: this._data.date.end,
+      allowInput: false,
+      defaultDate: this._date.start,
+      enableTime: true,
+      dateFormat: `d.m.Y H:i`,
+    });
+
+    flatpickr(dateFields[1], {
+      // minDate: this._data.date.start,
+      allowInput: false,
+      defaultDate: this._date.end,
+      enableTime: true,
+      dateFormat: `d.m.Y H:i`,
+    });
 
     this._eventNew.getElement().addEventListener(`submit`, (evt) => {
       evt.preventDefault();
