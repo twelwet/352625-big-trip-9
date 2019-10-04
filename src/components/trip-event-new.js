@@ -1,10 +1,13 @@
 // trip-event-new.js
 
 import Component from './component.js';
+import {pointsInfo} from "./mock-data";
 
 class TripEventNew extends Component {
   constructor() {
     super();
+    this._typesList = pointsInfo.typesList;
+    this._pretext = pointsInfo.pretext;
   }
 
   getTemplate() {
@@ -115,6 +118,21 @@ class TripEventNew extends Component {
               <button class="event__reset-btn" type="reset">Cancel</button>
             </header>
           </form>`;
+  }
+
+  onTypeChange(evt) {
+    const typeIcon = this.getElement().querySelector(`.event__type-icon`);
+    const typeTextElement = this.getElement().querySelector(`.event__type-output`);
+    const typeToggle = this.getElement().querySelector(`.event__type-toggle`);
+
+    if (evt.target.tagName !== `INPUT`) {
+      return;
+    }
+
+    typeIcon.src = this._typesList[evt.target.value].icon;
+    typeTextElement.innerHTML = `${evt.target.value} ${this._pretext[this._typesList[evt.target.value].group]}`;
+
+    typeToggle.checked = false;
   }
 }
 
