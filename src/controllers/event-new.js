@@ -4,7 +4,7 @@ import TripEventNew from '../components/trip-event-new.js';
 import {Position, render, unrender} from "../utils";
 import moment from 'moment';
 import {citiesList, getOptions} from "../components/mock-data";
-import flatpickr from "./event";
+import flatpickr from "flatpickr";
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/themes/light.css';
 
