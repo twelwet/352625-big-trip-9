@@ -28,6 +28,8 @@ class NewEventController {
 
     this._onNewEventClick = this._onNewEventClick.bind(this);
     this._onCancelClick = this._onCancelClick.bind(this);
+    this._onEscPress = this._onEscPress.bind(this);
+
     this._eventsController = eventsController;
   }
 
@@ -40,18 +42,25 @@ class NewEventController {
   _onNewEventClick() {
     render(this._container, this._eventNew.getElement(), Position.AFTER);
     this._eventNewBtn.disabled = true;
+    this._addListeners();
   }
 
   _onCancelClick() {
+    this._removeListeners();
     this._unrender();
+  }
+
+  _onEscPress(evt) {
+    if (evt.keyCode === 27) {
+      this._removeListeners();
+      this._unrender();
+    }
   }
 
   _create() {
     this._eventNew = new TripEventNew();
     this._cancelBtn = this._eventNew.getElement().querySelector(`.event__reset-btn`);
     this._typeListElement = this._eventNew.getElement().querySelector(`.event__type-list`);
-
-    this._cancelBtn.addEventListener(`click`, this._onCancelClick);
 
     this._onTypeChange = this._eventNew.onTypeChange.bind(this._eventNew);
 
@@ -95,8 +104,14 @@ class NewEventController {
 
   _addListeners() {
     this._typeListElement.addEventListener(`click`, this._onTypeChange);
+    this._cancelBtn.addEventListener(`click`, this._onCancelClick);
+    document.addEventListener(`keydown`, this._onEscPress);
   }
-  _removeListeners() {}
+  _removeListeners() {
+    this._typeListElement.removeEventListener(`click`, this._onTypeChange);
+    this._cancelBtn.removeEventListener(`click`, this._onCancelClick);
+    document.removeEventListener(`keydown`, this._onEscPress);
+  }
 
 }
 export default NewEventController;
